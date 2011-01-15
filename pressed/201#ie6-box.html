@@ -1,0 +1,352 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="file:///D|/Projects/gc-bb9z/Blog Workspace/CodePart.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="file:///D:/Projects/gc-bb9z/lab/bb.js"></script>
+<script type="text/javascript" src="press.js"></script>
+<title>[B27N.S] 从所谓“IE6盒子模型”说起</title></head><body>
+
+<!-- /////////////////////////////////////  -->
+<div class="stic">
+	<p><strong>涉及什么</strong>：盒模型、怪异模式、IE6、浏览器更新方式的一点讨论，外加一段唠叨。</p>
+</div>
+<div class="tag">
+<h3 style="font-size: x-small;"><a href="http://www.google.com/search?q=%22%E8%B0%88%E5%A4%A9%E8%AF%B4%E5%9C%B0%22+site%3Ahi.baidu.com/BB9z/blog/item">[谈天说地]</a>　<a href="http://www.google.com/search?q=%22%E6%B5%8F%E8%A7%88%E5%99%A8%22+site%3Ahi.baidu.com/BB9z/blog/item">[浏览器]</a>&gt;<a href="http://www.google.com/search?q=%22IE%22+site%3Ahi.baidu.com/BB9z/blog/item">[IE]</a>　<a href="http://www.google.com/search?q=%22Web%22+site%3Ahi.baidu.com/BB9z/blog/item">[Web]</a>-<a href="http://www.google.com/search?q=%22%E5%89%8D%E7%AB%AF%22+site%3Ahi.baidu.com/BB9z/blog/item">[前端]</a>　<a href="http://www.google.com/search?q=%22%E5%94%A0%E5%8F%A8%22+site%3Ahi.baidu.com/BB9z/blog/item">[唠叨]</a>　|　<a href="http://www.google.com/search?q=BB9z">{BB9zB}</a>　<a href="http://hi.baidu.com/bb9z/blog/item/d68f6f80c080ad9cf703a64e.html" title="点击查看所有标签"><img src="http://bb9z.home.lc/EIS/info.png" alt="i" /></a> <a class="shareob" title="分享本文" href="http://www.addthis.com/bookmark.php?v=250&amp;username=bb9z"><img src="http://files.myopera.com/BB9z/EIS/ui/shareOB.png" alt="Share" /></a></h3><hr class="ffd" /></div>
+<div class="at"><h1 class="ffd">从所谓“IE6盒子模型”说起</h1>
+	<div id="ui-content" class="ui-content"><h3 id="ct201" class="ui-content-t" title="善用目录可以节约您的时间">目录</h3><ul class="ui-content-c"><li><a href="#m1-1">起因</a></li><li><a href="#m1-2">真正的盒模型？</a></li><li><a href="#m1-3">有些冤</a></li><li><a href="#m1-4">IE6</a></li><li><a href="#m1-5">浏览器更新方式</a></li>
+	<li><a href="#ct201-ref">参考资料</a></li></ul></div>
+	
+	<h2 id="m1-1"><a href="#ct201" class="ui-content-b" title="点击返回目录">起因</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+	<p>事情要从6月份锐商企业发的那篇《IE6 很邪恶，但我爱它的盒子模型》<span class="l2rdm"><a href="#rdm1"><sup>[1]</sup></a></span>说起，这篇文章已经被转了又转（Google的搜索结果相当多，百度倒是挺“干净”的），此文对于盒模型是这么描述的：</p>
+	<div class="layout-hc">
+		<div class="figure"><img alt="锐商企业错误的标注" src="http://bb9z.home.lc/blog/img/2010-10-27/wrong-box-models.png" />
+			<blockquote>“可以看出，IE6 盒子模型中，盒子的尺寸包含了 内容区，padding， border 和 margin 这四个部分，而 W3C 的盒子模型中，盒子的尺寸只包含内容区，padding，border 和 margin 被排除在盒子尺寸之外”</blockquote>
+		</div>
+	</div>
+<p>而这个说法是错的，至少在IE6下是相当局限的一种情形。</p>
+<p>这是我实验的结果：</p>
+<div class="layout-hc">
+	<div class="figure"> <img alt="实测截图" src="http://bb9z.home.lc/blog/img/2010-10-27/test1.png" />
+		<p>从左至右分别是Chrome、Firefox、IE8模拟的怪异模式、IE6、IE8标准模式</p>
+		<p>并有着正确的XHTML 1.0 Transitional声明</p>
+	</div>
+</div>
+<p>中间蓝色的div我设置了200px的宽10px的padding和border，外加20px的margin，从图可见只有IE8模拟的怪异模式宽度是异常的，IE6好好着呢。</p>
+<p>多说一句，你可以从这附图中看到不同的浏览器对于同一个页面显示上的种种差别。	</p>
+<h2 id="m1-2"><a href="#ct201" class="ui-content-b" title="点击返回目录">真正的盒模型？</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+	<p>锐商企业的那篇文章写错了也就罢了，在Javaeye上看到的<span class="l2rdm"><a href="#rdm2"><sup>[2]</sup></a></span>竟然也是这么说的，着实让我这个“初学者”迷茫了一阵子。</p>
+	<p>大体上我们可以认为浏览器有两种模式：怪异模式（Quirks Mode）和标准模式（Standards Mode）。怪异模式可以说是浏览器保持向后兼容的努力，例如IE6已经修复了盒模型的Bug<span class="l2rdm"><a href="#rdm8"><sup>[8]</sup></a></span>，怪异模式是其提供向后兼容的手段，主要是为了模拟IE5.5的某些行为<span class="l2rdm"><a href="#rdm7"><sup>[7]</sup></a></span>。对于现代浏览器，这两种模式之间的差别不大，差别较大的主要是旧版IE。在IE的盒模型尺寸计算上，怪异模式把内填充（padding）和边框（border）计算在内，而标准模式的尺寸是填充内最里层的尺寸。维基的这幅图很清楚：</p>
+	<div class="layout-hc">
+		<div class="figure"> <img alt="盒模型示意图" src="http://bb9z.home.lc/blog/img/2010-10-27/w3c_and_ie5_box_models.png" />
+			<p>“The difference in how width is interpreted between the W3C and Internet Explorer box models”</p>
+		</div>
+	</div>
+<p>那么合时浏览器由标准模式进入怪异模式呢？</p>
+<p>浏览器主要根据页面的Doctype决定该进入何种模式，可见下表，Q代表怪异模式，S代表标准模式，A代表“几乎标准模式”（Almost Standards Mode）：</p>
+<table style="border: thin solid;" summary="各浏览器渲染方式与DTD对照表">
+	<caption>
+	各浏览器渲染方式与<abbr title="Document Type Definition">DTD</abbr>对照表
+	</caption>
+	<col style="width:10%;"/>
+	<tbody><tr>
+	<th style="width:60%;" colspan="2">Doctype</th>
+	<th style="width: 5%;"><a href="/wiki/Netscape_6" title="Netscape 6">NS6</a></th>
+	<th style="width: 5%;"><a href="/wiki/Mozilla_Application_Suite" title="Mozilla Application Suite">Mozilla</a> 0.9.5-1.0</th>
+	<th style="width: 10%;"><a href="/wiki/Internet_Explorer_8" title="Internet Explorer 8">IE 8+</a><br />
+	<a href="/wiki/Firefox" title="Firefox" class="mw-redirect">Firefox</a><br />
+	<a href="/wiki/Google_Chrome" title="Google Chrome">Chrome</a><br />
+	<a href="/wiki/Safari_%28web_browser%29" title="Safari (web browser)">Safari</a><br />
+	<a href="/wiki/Opera_%28web_browser%29" title="Opera (web browser)">Opera 7.5+</a><br />
+		Netscape 7+<br />
+		Mozilla 1.0.1+<br />
+	<a href="/wiki/Konqueror" title="Konqueror">Konq 3.5+</a><br />
+	<a href="/wiki/HTML5" title="HTML5">HTML5</a> spec</th>
+	<th style="width: 5%;"><a href="/wiki/Internet_Explorer_7" title="Internet Explorer 7">IE 7</a><br />
+		Opera 7.10</th>
+	<th style="width: 5%;"><a href="/wiki/Internet_Explorer_6" title="Internet Explorer 6">IE 6</a><br />
+		Opera 7.0</th>
+	<th style="width: 5%;"><a href="/wiki/Internet_Explorer_for_Mac" title="Internet Explorer for Mac">Mac IE 5</a></th>
+	<th style="width: 5%;">Konq 3.2</th>
+	</tr>
+	<tr>
+	<td style="text-align: left;" colspan="2"><i>None</i></td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	</tr>
+	<tr>
+	<th style="background: none repeat scroll 0% 0% rgb(236, 236, 236); color: black; font-weight: bold; vertical-align: middle; text-align: left;" class="table-rh" colspan="11"><a href="/wiki/HTML" title="HTML">HTML</a> 3.2</th>
+	</tr>
+	<tr>
+	<td style="text-align: left;" colspan="2"><span style="font-family: monospace; font-size: 85%;">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"&gt;</span></td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	</tr>
+	<tr>
+	<th style="background: none repeat scroll 0% 0% rgb(236, 236, 236); color: black; font-weight: bold; vertical-align: middle; text-align: left;" class="table-rh" colspan="11"><a href="/wiki/HTML" title="HTML">HTML</a> 4.01</th>
+	</tr>
+	<tr>
+	<td style="background: none repeat scroll 0% 0% rgb(236, 236, 236); text-align: left;" rowspan="2">Strict</td>
+	<td style="text-align: left;">with system identifier<br />
+	<span style="font-family: monospace; font-size: 85%;">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"&gt;</span></td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	</tr>
+	<tr>
+	<td style="text-align: left;">without system identifier<br />
+	<span style="font-family: monospace; font-size: 85%;">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"&gt;</span></td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	</tr>
+	<tr>
+	<td style="background: none repeat scroll 0% 0% rgb(236, 236, 236); text-align: left;" rowspan="2">Transitional</td>
+	<td style="text-align: left;">with system identifier<br />
+	<span style="font-family: monospace; font-size: 85%;">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;</span></td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	</tr>
+	<tr>
+	<td style="text-align: left;">without system identifier<br />
+	<span style="font-family: monospace; font-size: 85%;">&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"&gt;</span></td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	</tr>
+	<tr>
+	<th style="background: none repeat scroll 0% 0% rgb(236, 236, 236); color: black; font-weight: bold; vertical-align: middle; text-align: left;" class="table-rh" colspan="11"><a href="/wiki/HTML5" title="HTML5">HTML5</a></th>
+	</tr>
+	<tr>
+	<td style="text-align: left;" colspan="2"><span style="font-family: monospace; font-size: 85%;">&lt;!DOCTYPE html&gt;</span></td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td><i><b>?</b></i></td>
+	</tr>
+	<tr>
+	<th style="background: none repeat scroll 0% 0% rgb(236, 236, 236); color: black; font-weight: bold; vertical-align: middle; text-align: left;" class="table-rh" colspan="11"><a href="/wiki/XHTML" title="XHTML">XHTML</a> Basic</th>
+	</tr>
+	<tr>
+	<td style="text-align: left;" colspan="2">with system identifier and without XML declaration<br />
+	<span style="font-family: monospace; font-size: 85%;">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd"&gt;</span></td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	</tr>
+	<tr>
+	<th style="background: none repeat scroll 0% 0% rgb(236, 236, 236); color: black; font-weight: bold; vertical-align: middle; text-align: left;" class="table-rh" colspan="11"><a href="/wiki/XHTML" title="XHTML">XHTML</a> 1.0</th>
+	</tr>
+	<tr>
+	<td style="background: none repeat scroll 0% 0% rgb(236, 236, 236); text-align: left;" rowspan="3">Strict</td>
+	<td style="text-align: left;">with system identifier and XML declaration<br />
+	<span style="font-family: monospace; font-size: 85%;">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br />
+	<span style="font-family: monospace; font-size: 85%;">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;</span></td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	</tr>
+	<tr>
+	<td style="text-align: left;">with system identifier and without an XML declaration<br />
+	<span style="font-family: monospace; font-size: 85%;">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;</span></td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	</tr>
+	<tr>
+	<td style="text-align: left;">without system identifier and without an XML declaration<br />
+	<span style="font-family: monospace; font-size: 85%;">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"&gt;</span></td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td><i><b>?</b></i></td>
+	</tr>
+	<tr>
+	<td style="background: none repeat scroll 0% 0% rgb(236, 236, 236); text-align: left;" rowspan="3">Transitional</td>
+	<td style="text-align: left;">with system identifier and with XML declaration<br />
+	<span style="font-family: monospace; font-size: 85%;">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br />
+	<p><span style="font-family: monospace; font-size: 85%;">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;</span></p>
+	</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	</tr>
+	<tr>
+	<td style="text-align: left;">with system identifier and without an XML declaration<br />
+	<span style="font-family: monospace; font-size: 85%;">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;</span></td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	</tr>
+	<tr>
+	<td style="text-align: left;">without system identifier and without an XML declaration<br />
+	<span style="font-family: monospace; font-size: 85%;">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"&gt;</span></td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td><i><b>?</b></i></td>
+	</tr>
+	<tr>
+	<th style="background: none repeat scroll 0% 0% rgb(236, 236, 236); color: black; font-weight: bold; vertical-align: middle; text-align: left;" class="table-rh" colspan="11"><a href="/wiki/XHTML" title="XHTML">XHTML</a> 1.1</th>
+	</tr>
+	<tr>
+	<td style="text-align: left;" colspan="2">with system identifier and an XML declaration<br />
+	<span style="font-family: monospace; font-size: 85%;">&lt;?xml version="1.0" encoding="UTF-8"?&gt;<br />
+	&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"&gt;</span></td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 221, 221);">Q</td>
+	</tr>
+	<tr>
+	<td style="text-align: left;" colspan="2">with system identifier and without XML declaration<br />
+	<span style="font-family: monospace; font-size: 85%;">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"&gt;</span></td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(187, 255, 221);">S</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	<td style="background: none repeat scroll 0% 0% rgb(255, 255, 221);">A</td>
+	</tr>
+	<tr>
+	<th colspan="2">Doctype</th>
+	<th style="width: 5%;"><a href="/wiki/Netscape_6" title="Netscape 6">NS6</a></th>
+	<th style="width: 5%;"><a href="/wiki/Mozilla_Application_Suite" title="Mozilla Application Suite">Mozilla</a> 0.9.5-1.0</th>
+	<th style="width: 10%;"><a href="/wiki/Internet_Explorer_8" title="Internet Explorer 8">IE 8+</a><br />
+	<a href="/wiki/Firefox" title="Firefox" class="mw-redirect">Firefox</a><br />
+	<a href="/wiki/Google_Chrome" title="Google Chrome">Chrome</a><br />
+	<a href="/wiki/Safari_%28web_browser%29" title="Safari (web browser)">Safari</a><br />
+	<a href="/wiki/Opera_%28web_browser%29" title="Opera (web browser)">Opera 7.5+</a><br />
+		Netscape 7+<br />
+		Mozilla 1.0.1+<br />
+	<a href="/wiki/Konqueror" title="Konqueror">Konq 3.5+</a><br />
+	<a href="/wiki/HTML5" title="HTML5">HTML5</a> spec</th>
+	<th style="width: 5%;"><a href="/wiki/Internet_Explorer_7" title="Internet Explorer 7">IE 7</a><br />
+		Opera 7.10</th>
+	<th style="width: 5%;"><a href="/wiki/Internet_Explorer_6" title="Internet Explorer 6">IE 6</a><br />
+		Opera 7.0</th>
+	<th style="width: 5%;"><a href="/wiki/Internet_Explorer_for_Mac" title="Internet Explorer for Mac">Mac IE 5</a></th>
+	<th style="width: 5%;">Konq 3.2</th>
+	</tr>
+</tbody></table>
+	<p class="postil">注：此表来自<span class="l2rdm"><a href="#rdm7"><sup>[7]</sup></a></span>，你可以在<span class="l2rdm"><a href="#rdm5"><sup>[5]</sup></a></span>中找到另一个版本</p>
+	<p>各主流浏览器在Quirks Mode和Standards Mode特性上的差别在<span class="l2rdm"><a href="#rdm3">[3]</a></span>中有比较清晰的论述。</p>
+<p>资料<span class="l2rdm"><a href="#rdm5">[5]</a></span>同时指出了四种浏览器模式：Quirks Mode、Standards Mode、Almost Standards Mode、IE7 Mode。</p>
+	<p>关于盒子模型宽度的问题<span class="l2rdm"><a href="#rdm9">[9]</a></span>里说的已经很清楚了，<span class="l2rdm"><a href="#rdm4">[4]</a></span>还对box-sizing属性进行了说明。</p>
+	<div class="layout-hc">
+		<div class="figure"><img alt="怪异模式的IE6盒模型尺寸" src="http://bb9z.home.lc/blog/img/2010-10-27/test2.png" />
+			<p>怪异模式的IE6</p>
+		</div>
+	</div>
+	<h2 id="m1-3"><a href="#ct201" class="ui-content-b" title="点击返回目录">有些冤</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+<p class="postil">注：本节涉水，您可以安全略过。</p>
+	<p>前端方面我是半路出家，个人项目根本就不考虑IE6，可以说对IE6了解很少。锐商这篇文章当初也算第一时间看到的，不看前面盒模型这段，后面写的还行。对于宽度包括外边距这段，当时觉得有些奇怪，要说布局方便的话，宽度不包括外边距（即正确的怪异盒模型）才对啊。之前他们的文章也见了不少，质量并不差，加上对IE6的一贯鄙视（奇怪的bug一堆，也不差这一个了），就确信了。</p>
+	<p>之后，觉着盒模型这有些不对劲（正确的说法确实看过，但时间实在太久远了），怀疑是否记错了（主要就是包不包含外边距），就重新复习一下宽度，搜到了这篇文章在javaeye上的转载，于是再次踏上贼船。</p>
+	<p>之后的之后，在前端面试中就悲剧了……盒模型几乎是前端面试的必考题，而且是最基础的内容，经过之前的铺垫，我很自然地“胡言乱语”了。如果我是面试官，当有面试者在如此基础的知识点上胡说八道，我会对他的能力和工作态度打一个大问号。</p>
+<p>如果我能注意到原文下面的评论（RSS阅读器看不到评论，怨念啊），如果……如果……能怨谁呢？技艺不精，自食其果吧。不喜欢发牢骚，该话题就此打住。在这里（<a href="http://www.seeyou58.com/Html/?39152.html">http://www.seeyou58.com/Html/?39152.html</a>）看到一个跟我有类似遭遇的哥们，我祝他好运。</p>
+<h2 id="m1-4"><a href="#ct201" class="ui-content-b" title="点击返回目录">IE6</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+	<p>如今的IE6如老鼠过街，人人喊打。可是大家看看IE6的发布时间，2001年8月[6]，已经快十年了，在飞速发展的互联网行业，十年意味着什么？而且IE6的目前市场份额对于大多数开发商来说，仍是很难开口拒绝的。</p>
+	<p>我认为，当初的IE6开发人员完全有理由为自己的杰作而骄傲——因为IE6是互联网时代第一个也将是最后一个可以在长时间无重要功能更新的情况下在10年里均能占有主流地位的前台产品！</p>
+	<p>IE6能获得如斯的成功，除了机遇和另一款成功的产品——XP的捆绑外，高水准的质量是不可或缺的。其实IE当时对W3C的标准支持是相当不错的，只不过这个世界变化太快。凭借微软的技术优势，IE6让网景成为历史，并维持多年的垄断，2007年末份额依旧在50%以上<span class="l2rdm"><a href="#rdm7"><sup>[7]</sup></a></span>。IE6实在是太成功了，以致成为今天Web标准推进的一大绊脚石，连微软也摆脱不了。</p>
+	<p>回到上面的话题，怪异模式其实有一个更好听的名字——兼容模式（Compatibility Mode）。微软主要产品的每次的重大版本升级都会给之前的版本留个后路，IE6为兼容IE5.5的怪异模式、大家熟知的IE8兼容模式，并且微软均给出了如何开启或关闭相关模式的说明，比如加meta标签。</p>
+	<p><span class="l2rdm"><a href="#rdm10">[10]</a></span>是微软自家对IE1到IE6的历史介绍，在那也可以找到微软其他产品的类似页面，喜欢怀旧的可以去看看</p>
+	<p><span class="l2rdm"><a href="#rdm11">[11]</a></span>是个很不错的工具，大家可以在上面看到中国的浏览器份额，从IE6的指标来看至少落后全球三年。</p>
+	<h2 id="m1-5"><a href="#ct201" class="ui-content-b" title="点击返回目录">浏览器更新方式</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+	<p>主流浏览器Firefox、Chrome、Opera都是处于很频繁的版本更新发布状态而且通常是提醒用户更新或自动更新的，所以大部分开发者基本不用考虑这些浏览器的旧版本。Safari虽然更新较慢，但对标准的实现通常比较领先，所以也很放心。</p>
+	<p>就剩下IE了，有人认为微软应该向Firefox、Chrome那样频繁更新靠拢，这样才能赶上其他浏览器。最初我比较赞同这一看法，毕竟微软目前的Update技术已经很成熟了，IE的安全补丁事常有，在线安装的体验也不错，从技术角度是完全可以实现的，那功能上为什么时刻保持最新呢？</p>
+	<p>微软不这么做主要考虑的应该是市场，和Mozilla、Google、Opera免费提供浏览器相比，微软和苹果做浏览器是为了卖操作系统的，给对方系统提供支持也是为了扩大市场而已。</p>
+	<p>不像Mozilla他们只要考虑稳定版和开发版，微软和苹果要面对多个版本的浏览器共存的情况，并需要提供持续的支持，版本多了首先是难于维护管理。而且他们还要直面最多的用户，旧版本强制废了不行，总升级用户烦，一个版本里界面、功能不能有大的变动……</p>
+	<p>总之，要赚钱就要面对挑剔的客户，于是限制就多了。另一方面，假如IE10采用自动更新功能了，一天，微软把IE10中的某一错误的显示方式修复了，然后第二天，开发者们发现之前显示正确的页面乱套了，于是他们只得在已经很臃肿的版本检测代码里再加入对IE10.XXX的处理……（这个例子不恰当，示意而已）</p>
+	<p>M$自然不会让上一幕发生，善待开发者是微软赚钱的秘诀之一。</p>
+</div>
+<hr class="ffd" /><div class="rdmore"><h2 id="ct201-ref">参考资料</h2><ol>
+<li><a href="http://www.comsharp.com/GetKnowledge/zh-CN/TeamBlogTimothyPage_K983.aspx" name="rdm1" title="IE6 很邪恶，但我爱它的盒子模型" lang="zh-cn">IE6 很邪恶，但我爱它的盒子模型</a></li>
+<li><a href="http://www.javaeye.com/topic/241260" name="rdm2" title="浏览器的两种模式quirks mode 和strict mode" lang="en">浏览器的两种模式quirks mode 和strict mode</a></li>
+<li><a href="http://www.quirksmode.org/css/quirksmode.html" name="rdm3" title="CSS - Quirks mode and strict mode" lang="en">CSS - Quirks mode and strict mode | quirksmode.org
+</a></li>
+<li><a href="http://www.quirksmode.org/css/box.html" name="rdm4" title="Box model tweaking" lang="en">Box model tweaking | quirksmode.org
+</a></li>
+<li><a href="http://hsivonen.iki.fi/doctype/" name="rdm5" title="Activating Browser Modes with Doctype" lang="en">Activating Browser Modes with Doctype
+</a></li>
+<li><a href="http://zh.wikipedia.org/zh-cn/IE6" name="rdm6" title="IE6" lang="zh">维基百科 - IE6
+</a></li>
+<li><a href="http://en.wikipedia.org/wiki/IE6" name="rdm7" title="IE6" lang="en">Wikipedia - IE6
+</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Quirks_mode" name="rdm8" title="Quirks Mode" lang="en">Wikipedia - Quirks Mode
+</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Internet_Explorer_box_model_bug" name="rdm9" title="Internet Explorer box model bug" lang="en">Wikipedia - Internet Explorer box model bug
+</a></li>
+<li><a href="http://www.microsoft.com/windows/WinHistoryIE.mspx" name="rdm10" title="Windows History -  Internet Explorer History" lang="en">Windows History -  Internet Explorer History | Microsoft.com
+</a></li>
+<li><a href="http://gs.statcounter.com/#browser_version-CN-monthly-200807-201010" name="rdm11" title="StatCounter Global Stats" lang="en">http://gs.statcounter.com/#browser_version-CN-monthly-200807-201010
+</a></li>
+</ol>
+<h2>你可能会喜欢</h2><ul>
+<li><a href="http://hi.baidu.com/bb9z/blog/item/19504284ba30da3167096eb6.html">跨浏览器的box-sizing写法</a></li>
+<li><a href="http://hi.baidu.com/bb9z/blog/item/b353ef444ba856076a63e506.html">经典旧闻：《十年MFC经历认识的Microsoft技术》</a></li>
+<li><a href="http://hi.baidu.com/bb9z/blog/item/f199c43d299031e155e72323.html">[谈天说地] 聊聊Ctrl+Space和键盘布局</a></li>
+</ul>
+</div>
+
+<!-- /////////////////////////////////////  -->
+
+</body></html>

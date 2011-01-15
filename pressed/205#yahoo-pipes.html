@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="file:///D|/Projects/gc-bb9z/Blog Workspace/CodePart.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="file:///D:/Projects/gc-bb9z/lab/bb.js"></script>
+<script type="text/javascript" src="press.js"></script>
+<title>[A-22N][BBservice] Yahoo! Pipes 导引</title></head><body>
+<!-- /////////////////////////////////////  -->
+<div class="stic">
+	<p><strong>概要</strong>：本文是Yahoo! Pipes的教程，Pipes是强力的feed烧制工具，其口号是“Rewire the web”。</p></div>
+<div class="tag"><h3 style="font-size:x-small;"><a href="http://www.google.com/search?q=feed+site%3Ahi.baidu.com/BB9z/blog/item">[feed]</a>-<a href="http://www.google.com/search?q=%22IDE%22+site%3Ahi.baidu.com/BB9z/blog/item">[IDE]</a>　<a href="http://www.google.com/search?q=%22BBservice%22+site%3Ahi.baidu.com/BB9z/blog/item">[BBservice]</a>-<a href="http://www.google.com/search?q=%22%E5%9F%BA%E7%A1%80%22+site%3Ahi.baidu.com/BB9z/blog/item">[基础]</a>-<a href="http://www.google.com/search?q=%22%E6%95%99%E7%A8%8B%22+site%3Ahi.baidu.com/BB9z/blog/item">[教程]</a>　
+|　<a href="http://www.google.com/search?q=BB9z">{BB9zB}</a>　<a class="tag-info" href="http://hi.baidu.com/bb9z/blog/item/d68f6f80c080ad9cf703a64e.html" title="点击查看所有标签"><span class="layout-hidden">标签</span></a> <a class="tag-share" title="分享本文" href="http://www.addthis.com/bookmark.php?v=250&amp;username=bb9z"><span  class="layout-hidden">Share</span></a></h3><hr class="ffd"/></div>
+<div class="at"><h1 class="ffd">Yahoo! Pipes 导引</h1>
+	<h2>Yahoo! Pipes 是干什么的？</h2>
+	<p>Yahoo! Pipes （以下简称“pipes”）是可视化feed烧制，聚合工具。</p>
+<p><br />
+	列举下可以用pipes完成的常见的任务：</p>
+	<ul>
+		<li>把非全文feed打造成全文的；</li>
+		<li>将多个feed源想合并成一个；</li>
+		<li>过滤feed中的条目；</li>
+		<li>调整feed的标题，内容等；</li>
+		<li>网站没有RSS输出？用pipes自己做一个；</li>
+	</ul>
+	<p>上面这几条是大部分人常见的需求，其实pipes还可以做的更多。</p>
+	<p><br />
+	pipes的主页：<a href="http://pipes.yahoo.com/pipes/" title="Pipes: Rewire the web" hreflang="en">http://pipes.yahoo.com/pipes/</a> ，另外pipes是没有中文界面的，要发挥pipes强大的功能需要一些相关知识（如正则表达式、html）。如果你不想自己动手，可以尝试搜索现有的pipes，文末也提供些资源，有些可以直接使用。以下是教程：</p>
+<h2>pipes快速教程</h2>
+	<p class="postil">注：本教程不是手把手式的，而是在你亲身实践时有个参考而已。也不能代替官方资料。鄙人用pipes时间也不算长，难免有错误，到时烦劳指正了。</p>
+	<h3>界面</h3>
+	<p>下图就是pipes的编辑器了，左面有很多折叠的就是模块（modules）的导航（Library），要加入一个模块直接鼠标拖到右面的工作区（Canvas）里就行了；</p>
+	<p><img src="http://bb9z.home.lc/blog/img/2010-12-19/ui.png" alt="Yahoo Pipes 编辑器界面" /></p>
+	<p>下方有一个叫Debugger的调试区域，非常有用，每当你点击一个模块时调试器都会显示当前模块的输出状态，如下所示：</p>
+	<p><img src="http://bb9z.home.lc/blog/img/2010-12-19/debugger.png" alt="Pipes - Debugger" /></p>
+	<p>插点RSS的知识，RSS是一种xml文档，每个条目用item标签标识，item的子元素有title（文章标题）、link（文章链接）、pubDate（发布时间）、description（文章描述，也是多数全文feed的正文），根据feed生成软件的不同也有用content:encoded表示正文的（pipes优先将content:encoded作为正文输出），以上也是我们用pipes主要处理的字段。</p>
+	<p>每个pipe都是由若干模块构成的，Pipe Outout模块就是pipe的输出。每个模块有一至两个端点（terminal，就是在模块上下边缘的圆圈），有两种端点，数据端点（灰色的）、条目端点（蓝色的）。端点间用导线（wire）相连，点击端点就能拖拽出导线了。说起来可能有些复杂，在编辑器里大胆尝试下就明白了。</p>
+<p><img src="http://bb9z.home.lc/blog/img/2010-12-19/modules_in_canvas.png" alt="Pipes - modules" /></p>
+<h3>模块</h3>
+	<p>模块是pipes的核心，主要任务都是通过模块完成的。每个模块右上角有一个问号，点击能在左下方显示这个模块的介绍，模块的示例建议大家看一下，例子都比较典型。	</p>
+	<p><br />
+	下面介绍常用的模块</p>
+	<h4>Sources</h4>
+	<table class="tb-def">
+		<tr>
+			<th><p>Fetch Feed</p></th>
+			<td><p>最常用的模块，输入为feed的地址，输出feed的内容。</p></td>
+		</tr>
+		<tr>
+			<th><p>Fetch Page</p></th>
+			<td><p>抓取全文必备，URL是页面地址，通常赋值为&quot;item.link&quot;，后两个参数用来标明页面抓取的起始终止点，通常为html片段，最后一个参数是分隔符，用来分隔抓取结果的。</p></td>
+		</tr>
+		<tr>
+			<th><p>Feed   Auto-Discovery</p></th>
+			<td><p>输入页面地址，输出为在页面上找到的所有feed源。</p></td>
+		</tr>
+		<tr>
+			<th><p>Fetch Site Feed</p></th>
+			<td><p>输入页面地址，返回Feed   Auto-Discovery的第一个结果。</p></td>
+		</tr>
+		<tr>
+			<th><p>YQL</p></th>
+			<td><p>极其强力的接口模块（对于多数人来说也更难用），使用<a href="http://developer.yahoo.com/yql/" hreflang="en" title="Yahoo! Query Language - YDN">Yahoo! Query Language</a>，教程中给出一个合并多个feed的例子：</p>
+			<var>select *   from rss where url in ('http://digg.com/rss/index.xml','http:/feeds.mixx.com/MixxPopular">http://digg.com/rss/index.xml','http://feeds.mixx.com/MixxPopular')   | sort(field=&quot;pubDate&quot;)</var></td>
+		</tr>
+	</table>
+	
+	<h4>User Input</h4>
+<p>用户输入部分，可以定义一些变量，以便根据具体输入获得相应的输出。一个定义了用户输入的pipe：</p>
+	<div class="layout-hc"><div class="figure">
+  		<img alt="Pipes 页面示例" src="http://bb9z.home.lc/blog/img/2010-12-19/pipe_page.png">
+		<p>一个定义了四个用户输入的pipe页面</p>
+	</div></div>
+	<p>这些模块都有5个参数：Name（编辑器中的名称，用于标识），Prompt（该输入的注释，会显示在pipe的页面中），Position（各变量的显示顺序），Default（显示在pipe页面的初始值），Debug（在pipe编辑器中的定义，便于调试）</p>
+<h4>Operators</h4>
+	
+	<table class="tb-def">
+		<tr>
+			<th><p>Count</p></th>
+			<td><p>输入条目源，输出源中的条目数目</p></td>
+		</tr>
+		<tr>
+			<th><p>Rename</p></th>
+			<td><p>字段重命名或覆盖</p></td>
+		</tr>
+		<tr>
+			<th><p>Create RSS</p></th>
+			<td><p>条目重组可能会用到，可以去除输入的多余属性。</p></td>
+		</tr>
+		<tr>
+			<th><p>Regex</p></th>
+			<td><p>条目的正则表达式模块，强力。右面的四个模式分别是：g——global，全局匹配（不选中则仅匹配第一处）；s——single line，单行模式；m——multiline，多行匹配；i——ignore case，忽略大小写。<br />
+除了可以用$1这样标准的代换外，还可以使用条目的属性，形如：${pubDate}</p></td>
+		</tr>
+		<tr>
+			<th><p>Tail</p></th>
+			<td><p>限制输出条目的个数（节约带宽，还能加速调试^^）</p></td>
+		</tr>
+		<tr>
+			<th><p>Truncate</p></th>
+			<td><p>与Tail相似，Tail的放行是从后向前的，而Truncate放行前面的。</p></td>
+		</tr>
+		<tr>
+			<th><p>Sub-element</p></th>
+			<td><p>取出源的指定属性</p></td>
+		</tr>
+		<tr>
+			<th><p>Filter</p></th>
+			<td><p>过滤器，有阻止和允许两个选项。可以定义各种规则，很强大的一个模块。</p></td>
+		</tr>
+		<tr>
+			<th><p>Loop</p></th>
+			<td><p>循环，中间有一个放Source分类的模块或其他pipes的地方，典型用例是抓取页面。</p></td>
+		</tr>
+		<tr>
+			<th><p>Reverse</p></th>
+			<td><p>条目逆序排列</p></td>
+		</tr>
+		<tr>
+			<th><p>Sort</p></th>
+			<td><p>条目排序，常见的用法是合并多个feed后按pubDate降序（descending）排列</p></td>
+		</tr>
+		<tr>
+			<th><p>Split</p></th>
+			<td><p>将源拷贝为两个</p></td>
+		</tr>
+		<tr>
+			<th><p>Union</p></th>
+			<td><p>将数个源合并成一个，从条目左到右排列</p></td>
+		</tr>
+		<tr>
+			<th><p>Unique</p></th>
+			<td><p>去掉重复的条目</p></td>
+		</tr>
+		<tr>
+			<th><p>Web Service</p></th>
+			<td><p>把条目以JSON格式传递到服务上进行处理，这个对开发者来说很有用</p></td>
+		</tr>
+	</table>
+	
+	<h4>Deprecated</h4>
+<p>字面意思是否决的，应该是将在未来移除的，不推荐使用。</p>
+	<p><br />
+	其他类别的就不做介绍了，字面意思比较清楚，有个String Tokenizer就是根据指定分隔符把一个字符串分隔开来。另外，V1、V2版的模块稍有差异。</p>
+<h2>技巧与提示 </h2>
+	<p>左上角的三个按钮可以帮你理清杂乱的线框，Layout的作用自动排布，另外两个可以折叠/展开模块。</p>
+	<p>你可以把有用的pipes加为favorite（点亮星星），这样它们会出现在模块导航中，便于重用。</p>
+	<div class="layout-hc"><div class="figure">
+  		<img alt="Pipes - Library" src="http://bb9z.home.lc/blog/img/2010-12-19/favorites.png">
+		<p>导航中的已有pipes</p>
+	</div></div>
+	<p>你可以给pipes指定一个易于识别记忆的地址，像GR、FeedDemon等阅读器可以直接识别该地址。</p>
+	<p>很多时候，大量的pipes有着类似或相同的部分，可以用“模板”代替——用User Input模块输入可变的部分，然后在其他pipes里引用这个模块甚至直接使用带参数的feed，如：<var>http://pipes.yahoo.com/pipes/pipe.run?_id=d0af900cc7b7ab70d23a1734da1d5592&amp;_render=rss&amp;feed_url=示例URL/feed</var> 。</p>
+	<div class="layout-hc"><div class="figure">
+		<img alt="一个示例pipe" src="http://bb9z.home.lc/blog/img/2010-12-19/example.png">
+		<p>使用了模板的模板</p>
+	</div></div>
+	<h2>分享与搜索</h2>
+<p>pipes是强制公开的，也就是只要知道pipes的地址，任何人都可以使用并查看它的结构，这种开放的态度其实很好，便于互相学习。搜索再View Source是不错的学习方法。</p>
+	<p>你可以将完成好的pipe发布出去（点Publish），这样就能被其他人搜索到，同时也会出现在你公开的个人页面上，未发布的pipes则不会显示出来。</p>
+	<p>已发布的pipes如果修改了，可能需要Re-Publish。</p>
+<h2>缺陷</h2>
+	<p>虽说pipes很强大，但仍有很多事做不了。比如数据模块只能向条目模块传递信息，而不能将条目中的信息传递到数据模块中进行处理，唯一能做这事的是Regex正则模块，而它处理大段的正文很费时，而且还有过长不能处理的情况。</p>
+	<p>因为缺乏分支、判断等模块，很难做复杂的流程，虽说可以用一些模块来模仿。</p>
+	<p>不管怎么说，pipes作为一个免费的服务能做到这个程度，没什么可挑剔的了。</p>
+	<h2>一些资源</h2>
+<p>我已经分享了一些pipes在：<a href="http://pipes.yahoo.com/bb9z" title="Pipes from BB9z">http://pipes.yahoo.com/bb9z</a>，用Template标注的模板对初学者应该比较有参考价值，也可以直接用。</p>
+	<p>至于其它分享出来的不见得好，需要转化而已。最好内容的提供者不会小气到让读者非到自己的网站上浏览内容，而会考虑读者的便利。</p>
+	<p><a href="http://pipes.yahoo.com/pipes/docs" title="Pipes - Documentation">http://pipes.yahoo.com/pipes/docs</a> —— pipes的官方文档</p>
+</div>
+
+<!-- /////////////////////////////////////  -->
+</body></html>

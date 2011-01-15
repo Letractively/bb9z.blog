@@ -1,0 +1,822 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="file:///D|/Projects/gc-bb9z/Blog Workspace/CodePart.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="file:///D:/Projects/gc-bb9z/lab/bb.js"></script>
+<script type="text/javascript" src="file:///D|/Projects/gc-bb9z/Blog Pressed/press.js"></script>
+<title>[C42H][翻译] eMule维基 - 各积分系统介绍</title></head><body>
+
+<!-- /////////////////////////////////////  -->
+<div class="stic">
+	<p><strong>概要</strong>：介绍eMule各种Mod的信用系统，主要是计算公式。</p>
+</div>
+<div class="tag"><h3 style="font-size: x-small;">
+<a href="http://www.google.com/search?q=%22eMule%22+site%3Ahi.baidu.com/BB9z/blog/item">[eMule]</a>　<a href="http://www.google.com/search?q=%22%E5%8F%82%E8%80%83%22+site%3Ahi.baidu.com/BB9z/blog/item">[参考]</a>　<a href="http://www.google.com/search?q=%22%E8%BF%9B%E9%98%B6%22+site%3Ahi.baidu.com/BB9z/blog/item">[进阶]</a>　|　<a href="http://www.google.com/search?q=BB9z">{BB9zB}</a>　<a class="tag-info" href="http://hi.baidu.com/bb9z/blog/item/d68f6f80c080ad9cf703a64e.html" title="点击查看所有标签"><span class="layout-hidden">标签</span></a> <a class="tag-share" title="分享本文" href="http://www.addthis.com/bookmark.php?v=250&amp;username=bb9z"><span class="layout-hidden">Share</span></a></h3><hr class="ffd" /></div>
+<div class="at no_indent"><h1 class="ffd">[翻译] eMule 积分系统</h1>
+	<p>插话：应<a href="http://saintangel.tk/" title="angvil">冰灵</a>翻译的，Ejack等人很久就做过类似的介绍所以感觉再译这篇没太大必要，不过wiki的这篇确实比之前的要全。</p>
+	<hr />
+	<p>本文为<a href="http://wiki.emule-web.de/">eMule-wiki</a>站CreditSystems词条的翻译，原文：<a href="http://wiki.emule-web.de/index.php?title=CreditSystems">http://wiki.emule-web.de/index.php?title=CreditSystems</a> <span class="achk"> | 2010-11-10 查阅</span>，最后修订于：2009年3月12日 22:50</p>
+	<p> 由于是翻译，尽量不修改，基本符合原貌。因为原维基是从多的地方拼凑而来的，有些不一致的说法在翻译中统一化了，而且文中描述可能有误，部分描述和<span class="l2rdm"><a href="#rdm1">[1]</a></span><span class="l2rdm"><a href="#rdm2">[2]</a></span>的有出入，只修复最明显的错误。</p>
+	<h2><a href="#ct203" name="m1-1" class="ui-content-b" title="点击返回目录"> 必要的约定及说明</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+	<h3><a href="#ct203" name="m1-1-1" class="ui-content-b" title="点击返回目录"> 术语</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h3>
+	<p> 在本译文中，“credit modifier”，“ratio”，“score” 统一作信用评价量，简称：评分（主观视角，对于上传者，即我们）或得分（第三方视角，向我们请求上传的客户，上传受益者）。</p>
+	<p> 得分为对方在我们这里的系数，越高则请求将越快得到满足，对客户来说则越好。</p>
+	<h3><a href="#ct203" name="m1-1-2" class="ui-content-b" title="点击返回目录">约定</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h3>
+	<p> 因为原文对传输方向的描述比较混乱，对于未限定方向的传输，上传量统一指我们传输给其他的人，简写“<abbr title="Upload Total in MB" lang="en">UL</abbr>”，下载量与之相对，简写“<abbr title="Download Total in MB" lang="en">DL</abbr>”。含糊不清的地方按个人理解转换，出错的话还请包涵。</p>
+	<p> 传输量单位若未注明则为MB。</p>
+	<p> 如未特别说明或未有限定，描述站在第一或第二视角，客户指第三方。</p>
+	<h3><a href="#ct203" name="m1-1-3" class="ui-content-b" title="点击返回目录">一些澄清</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h3>
+	<p> 信用系统就是我们通常说的积分系统，主要用来回馈曾给予我们恩惠的客户，仅在独立的两个客户端间有效，而不是一对多或多对多的。</p>
+	<p> 仅从加速下载的角度（而不是纯分享）来看，你不能通过选择合适的信用系统直接改善你的下载，而是先优化你的上传队列，通过更有效的上传来减少排队的等待时间，同时也需要对方采用比较合理的信用系统。<abbr title="Dynamic Leecher Protection 动态反吸血保护">DLP</abbr>也可以理解为信用系统的补充规则，拒绝或减少给某些客户端（通常是不愿回传的）上传来优化上传队列，从而间接达到下载的提速。</p>
+	<p>以下是译文：</p>
+	<hr class="at_sec" />
+	<p class="ffd">本文包含了目录，但因为相对链接通常不能在RSS阅读器中使用，所以您可能不能利用其便利。你可以访问<a href="#">原文</a>以获得更好的阅读体验。</p>		
+	<div id="ui-content" class="ui-content"><h3 class="ui-content-t" title="善用目录可以节约您的时间"><a name="ct203">目录</a></h3>
+	<ul class="ui-content-c">
+		<li><a href="#m1-1"> 必要的约定及说明</a>
+		<ul>
+			<li><a href="#m1-1-1"> 术语</a></li>
+			<li><a href="#m1-1-2">约定</a></li>
+			<li><a href="#m1-1-3">一些澄清</a></li>
+		</ul>
+		</li>
+		<li><a href="#m1-2"> 信用系统</a>
+		<ul><li><a href="#m1-3">官方信用系统</a></li><li><a href="#m1-4">Peace</a></li><li><a href="#m1-5">Xman改进版</a></li><li><a href="#m1-6">Magic Angel </a></li><li><a href="#m1-7">Magic Angel+</a></li><li><a href="#m1-8">Ratio</a></li><li><a href="#m1-9">Ratio——Stulle的实现</a></li><li><a href="#m1-10">Neo</a></li><li><a href="#m1-11">Pawcio</a></li><li><a href="#m1-12">Fine</a></li><li><a href="#m1-13">SWAT</a></li><li><a href="#m1-14">Sivka</a></li><li><a href="#m1-15">Eastshare</a></li><li><a href="#m1-16">Lovelace</a></li><li><a href="#m1-17">ClientAnalyzer</a></li><li><a href="#m1-18">TK4 Credit System</a></li><li><a href="#m1-19">Reverse</a></li></ul></li></ul></div>
+	<h2><a href="#ct203" name="m1-2" class="ui-content-b" title="点击返回目录"> 信用系统</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+<p> 在你上传给客户前他们在队列中的等待时间由一个得分决定，而信用系统决定了这个分数。</p>
+	<h2><a href="#ct203" name="m1-3" class="ui-content-b" title="点击返回目录">官方信用系统</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+	<p> 评分有两种计算方法：</p>
+	<ul>
+		<li> 得分1 = 2×DL/UL</li>
+		<li> 得分2 = (DL + 2) 再开方</li>
+	</ul>
+<p> 然后比较取较小的作为评分。</p>
+<p>存在一些边界规则：</p>
+	<ul>
+		<li>当DL小于1MB时， 评分 = 1</li>
+		<li>当UL为零时，评分 = 10</li>
+		<li>评分的范围限制在1到10</li>
+	</ul>
+	<h2><a href="#ct203" name="m1-4" class="ui-content-b" title="点击返回目录">Peace</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+	<p> 和官方的一样，只是代码更短小（但是更慢！）</p>
+	<h2><a href="#ct203" name="m1-5" class="ui-content-b" title="点击返回目录">Xman改进版</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+<p>对已有信用系统的提升，它对给我们传输多的用户以奖励。这个系统考虑奖励因素。</p>
+	<p>另一方面，会在当前会话中对那些你传给他多，他传你少的客户以惩罚。</p>
+	<p>正面奖励的计算公式：<br />
+奖励系数=(DL - UL)/10-10/DL</p>
+	<p>评分最大为10（和官方的一样）。</p>
+	<table summary="Example of Xman improved Credit System">
+		<caption>示例 （大约一个区块（约9.28MB）的不同）:</caption>
+		<tbody><tr>
+			<th>DL</th>
+			<th>UL</th>
+			<th>官方版本</th>
+			<th>Xman improved </th>
+		</tr>
+		<tr>
+			<td>10MB</td>
+			<td>1MB</td>
+			<td>3.46</td>
+			<td>3.46   + 0（奖励系数） </td>
+		</tr>
+		<tr>
+			<td>20MB</td>
+			<td>11MB</td>
+			<td>3.63</td>
+			<td>3.63   + 0 （奖励系数）</td>
+		</tr>
+		<tr>
+			<td>30MB</td>
+			<td>21MB</td>
+			<td>2.86</td>
+			<td>2.86   + 0.2   （奖励系数）</td>
+		</tr>
+		<tr>
+			<td>90MB</td>
+			<td>81MB</td>
+			<td>2.22</td>
+			<td>2.22   + 0.7   （奖励系数）</td>
+		</tr>
+		<tr>
+			<td>50MB</td>
+			<td>20MB</td>
+			<td>5.0</td>
+			<td>5.0   + 2.2   （奖励系数）</td>
+		</tr>
+		<tr>
+			<td>90MB</td>
+			<td>50MB</td>
+			<td>3.6</td>
+			<td>3.6   +3.7   （奖励系数）</td>
+		</tr>
+		<tr>
+			<td>120MB</td>
+			<td>80MB</td>
+			<td>3.0</td>
+			<td>3.0   + 3.8   （奖励系数）</td>
+		</tr>
+	</tbody></table>
+	<p>如果你在会话中多给对方1个区块的上传并且完成除去回馈的下载/上传比较，那么他会得到-0.1的系数惩罚。<br />
+	如果你在会话中多给对方2个区块的上传并且完成除去回馈的下载/上传比较，那么他会得到-0.2的系数惩罚。</p>
+	<h2><a href="#ct203" name="m1-6" class="ui-content-b" title="点击返回目录">Magic Angel </a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+	<p>基于官方系统，不同在于：</p>
+	<ul>
+		<li> 当DL超过1.65MB时开始记录信用（官方为1MB）</li>
+		<li> 评分下限为0.1（官方为1），上限为50（官方为10）</li>
+	</ul>
+	<h2><a href="#ct203" name="m1-7" class="ui-content-b" title="点击返回目录">Magic Angel+</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+	<p>Magic Angel + 信用系统基于Magic Angel 信用系统，但DL多于UL时，评分会有些增加。</p>
+	<p> 当客户的上传与下载之差：</p>
+	<table summary="Magic Angel+ DL, UL评分对照表">
+		<tbody><tr>
+			<td>&lt; 7MB </td>
+			<td>评分+ 0.3 </td>
+		</tr>
+		<tr>
+			<td>&lt; 15MB</td>
+			<td>评分+ 1.0 </td>
+		</tr>
+		<tr>
+			<td>&lt; 30MB</td>
+			<td>评分+ 2.0 </td>
+		</tr>
+		<tr>
+			<td>&gt;= 30MB</td>
+			<td>评分+ 3.0 </td>
+		</tr>
+	</tbody></table>
+	<h2><a href="#ct203" name="m1-8" class="ui-content-b" title="点击返回目录">Ratio</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+	<p> 基于官方系统，评分最低为0.1而不是1。</p>
+	<p> 对上传者有×2，×4，×16倍的奖励。</p>
+	<h2><a href="#ct203" name="m1-9" class="ui-content-b" title="点击返回目录">Ratio——Stulle的实现</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+	<p>代码来源: Stullemule 3.6 src - ClientCredits.cpp - 代码位置: case CS_RATIO: // RT.10a mod Credit</p>
+	<p>与它的名字相反，不是基于上传/下载比，而是上传、下载量和他们间的差值。</p>
+	<p>没有简单的唯一表达式。</p>
+	<p>默认评分=1。</p>
+	<p> 对零（小于1MB）上传者逐步惩罚；<br />
+对未得到回报的上传者（总量少于1MB）逐步提高评分。</p>
+	<p> 上传在 1~9MB的客户获得最低为DL/9的信用；<br />
+		上传大于9MB的客户获得最低为0.7 + sqrt ( DL +1 ) / 10的信用，<br />
+		例如：上传99MB获得1.7的信用。</p>
+	<p> 通过平衡的信用系数按比例增加到 sqrt ( DL + 1)；</p>
+	<p> 信用进一步的增减由上传减下载的差决定；</p>
+	<p> 评价系数的值无限制。</p>
+	<p>图例和公式：</p>
+	<p> DL =总计下载MB ( to me )<br />
+		UL =总计上传MB ( to him )</p>
+	<p> 未认证用户的得分为1；<br />
+		新客户（UL和DL不大于1MB）的得分为1；</p>
+	<p> DL&lt;=1且UL&gt;1（几乎零上传者）则评分为1/sqrt(UL)；<br />
+		DL&gt;1且UL&lt;=1（应当被回馈）则评分为DL；</p>
+	<p> 若DL和UL均大于1MB，定义：
+		基础系数= sqrt(DL+1)，
+	修正系数= sqrt(abs(DL-UL))。</p>
+	<ul>
+		<li> 当DL&gt;UL，评分= 基础系数 + 修正系数</li>
+		<li> 当UL-DL&lt;= 1，评分= 基础系数</li>
+		<li> 当UL-DL&gt;1且DL&gt;=9，评分= max ( 0.7 + (基础系数/ 10), 基础系数/ 修正系数)</li>
+		<li> 当UL-DL&gt;1且DL&lt;9且基础系数&lt;修正系数，评分=DL / 9</li>
+		<li> 当UL-DL&gt;1且DL&lt;9且基础系数&gt;=修正系数，评分= 基础系数/ 修正系数</li>
+	</ul>
+	<table summary="Table of Ratio Credit values for Ratio Credit System">
+		<caption>表：Ratio评分参考</caption>
+		<tbody><tr>
+			<td colspan="2" rowspan="2"></td>
+			<th colspan="13">UL</th>
+		</tr>
+		<tr>
+			<th>1</th>
+			<th>2</th>
+			<th>3</th>
+			<th>5</th>
+			<th>8</th>
+			<th>13</th>
+			<th>21</th>
+			<th>34</th>
+			<th>55</th>
+			<th>89</th>
+			<th>144</th>
+			<th>233</th>
+			<th>377</th>
+		</tr>
+		<tr>
+			<th rowspan="13">DL</th>
+			<th>1</th>
+			<td>1</td>
+			<td>0.71</td>
+			<td>0.58</td>
+			<td>0.45</td>
+			<td>0.35</td>
+			<td>0.28</td>
+			<td>0.22</td>
+			<td>0.17</td>
+			<td>0.13</td>
+			<td>0.11</td>
+			<td>0.08</td>
+			<td>0.07</td>
+			<td>0.05</td>
+		</tr>
+		<tr>
+			<th>2</th>
+			<td>2</td>
+			<td>1.73</td>
+			<td>1.73</td>
+			<td>1</td>
+			<td>0.22</td>
+			<td>0.22</td>
+			<td>0.22</td>
+			<td>0.22</td>
+			<td>0.22</td>
+			<td>0.22</td>
+			<td>0.22</td>
+			<td>0.22</td>
+			<td>0.22</td>
+		</tr>
+		<tr>
+			<th>3</th>
+			<td>3</td>
+			<td>3</td>
+			<td>2</td>
+			<td>1.41</td>
+			<td>0.33</td>
+			<td>0.33</td>
+			<td>0.33</td>
+			<td>0.33</td>
+			<td>0.33</td>
+			<td>0.33</td>
+			<td>0.33</td>
+			<td>0.33</td>
+			<td>0.33</td>
+		</tr>
+		<tr>
+			<th>5</th>
+			<td>5</td>
+			<td>4.18</td>
+			<td>3.86</td>
+			<td>2.45</td>
+			<td>1.41</td>
+			<td>0.56</td>
+			<td>0.56</td>
+			<td>0.56</td>
+			<td>0.56</td>
+			<td>0.56</td>
+			<td>0.56</td>
+			<td>0.56</td>
+			<td>0.56</td>
+		</tr>
+		<tr>
+			<th>8</th>
+			<td>8</td>
+			<td>5.45</td>
+			<td>5.24</td>
+			<td>4.73</td>
+			<td>3</td>
+			<td>1.34</td>
+			<td>0.89</td>
+			<td>0.89</td>
+			<td>0.89</td>
+			<td>0.89</td>
+			<td>0.89</td>
+			<td>0.89</td>
+			<td>0.89</td>
+		</tr>
+		<tr>
+			<th>13</th>
+			<td>13</td>
+			<td>7.06</td>
+			<td>6.9</td>
+			<td>6.57</td>
+			<td>5.98</td>
+			<td>3.74</td>
+			<td>1.32</td>
+			<td>1.07</td>
+			<td>1.07</td>
+			<td>1.07</td>
+			<td>1.07</td>
+			<td>1.07</td>
+			<td>1.07</td>
+		</tr>
+		<tr>
+			<th>21</th>
+			<td>21</td>
+			<td>9.05</td>
+			<td>8.93</td>
+			<td>8.69</td>
+			<td>8.3</td>
+			<td>7.52</td>
+			<td>4.69</td>
+			<td>1.3</td>
+			<td>1.17</td>
+			<td>1.17</td>
+			<td>1.17</td>
+			<td>1.17</td>
+			<td>1.17</td>
+		</tr>
+		<tr>
+			<th>34</th>
+			<td>34</td>
+			<td>11.57</td>
+			<td>11.48</td>
+			<td>11.3</td>
+			<td>11.02</td>
+			<td>10.5</td>
+			<td>9.52</td>
+			<td>5.92</td>
+			<td>1.29</td>
+			<td>1.29</td>
+			<td>1.29</td>
+			<td>1.29</td>
+			<td>1.29</td>
+		</tr>
+		<tr>
+			<th>55</th>
+			<td>55</td>
+			<td>14.76</td>
+			<td>14.69</td>
+			<td>14.55</td>
+			<td>14.34</td>
+			<td>13.96</td>
+			<td>13.31</td>
+			<td>12.07</td>
+			<td>7.48</td>
+			<td>1.45</td>
+			<td>1.45</td>
+			<td>1.45</td>
+			<td>1.45</td>
+		</tr>
+		<tr>
+			<th>89</th>
+			<td>89</td>
+			<td>18.81</td>
+			<td>18.76</td>
+			<td>18.65</td>
+			<td>18.49</td>
+			<td>18.2</td>
+			<td>17.73</td>
+			<td>16.9</td>
+			<td>15.32</td>
+			<td>9.46</td>
+			<td>1.65</td>
+			<td>1.65</td>
+			<td>1.65</td>
+		</tr>
+		<tr>
+			<th>144</th>
+			<td>144</td>
+			<td>23.96</td>
+			<td>23.92</td>
+			<td>23.83</td>
+			<td>23.7</td>
+			<td>23.49</td>
+			<td>23.13</td>
+			<td>22.53</td>
+			<td>21.48</td>
+			<td>19.46</td>
+			<td>12.04</td>
+			<td>1.9</td>
+			<td>1.9</td>
+		</tr>
+		<tr>
+			<th>233</th>
+			<td>233</td>
+			<td>30.5</td>
+			<td>30.46</td>
+			<td>30.4</td>
+			<td>30.3</td>
+			<td>30.13</td>
+			<td>29.86</td>
+			<td>29.4</td>
+			<td>28.86</td>
+			<td>27.3</td>
+			<td>24.73</td>
+			<td>15.3</td>
+			<td>2.23</td>
+		</tr>
+		<tr>
+			<th>377</th>
+			<td>377</td>
+			<td>38.81</td>
+			<td>38.78</td>
+			<td>38.73</td>
+			<td>38.65</td>
+			<td>38.52</td>
+			<td>38.31</td>
+			<td>37.96</td>
+			<td>37.39</td>
+			<td>36.41</td>
+			<td>34.71</td>
+			<td>31.44</td>
+			<td>19.44</td>
+		</tr>
+	</tbody></table>
+	<h2><a href="#ct203" name="m1-10" class="ui-content-b" title="点击返回目录">Neo</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+	<p> 默认分数为1.0。上传下载量以字节（Bytes）计，在任何情况下如果客户没有我们需要的文件则计1.0分。如果客户没有良好的用户标识（译注：subuser Identification，即平常说的认证用户 ）则只计算本次会话的传输。</p>
+	<p>如果UL大于DL，公式：<br />
+		评分=( (9500KB×2(未认证用户) or 4(认证用户))/(UL-DL) )^2<br />
+	值的范围限制在0.1至1.0</p>
+	<p>如果UL小于DL，公式：<br />
+		评分=( (DL-UL)/(9500KB*1(未认证用户) or 2(认证用户)) )^2. <br />
+		值的范围限制在1.0至2.0</p>
+	<h2><a href="#ct203" name="m1-11" class="ui-content-b" title="点击返回目录">Pawcio</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+	<p> 值的范围从1.0到100.0；</p>
+	<p> 乘数为3（而不是2）——评分=3×DL/UL；</p>
+	<p> 对于新人（上传、下载少于1MB的），乘数为3（而不是1） ；</p>
+	<p> 如果接受某人超过1MB但未回馈给他任何内容，得分为100.0。</p>
+	<p> 如果某客户传给你很多：</p>
+	<ul>
+		<li> 如果你获得了100MB，那么用户得分为50.0直到你回馈108MB；</li>
+		<li> 如果你获得了50MB，那么用户得分为25.0直到你回馈55MB；</li>
+		<li> 如果你获得了25MB，那么用户得分为12.0直到你回馈28MB；</li>
+		<li> 如果你获得了15MB，那么用户得分为5.0直到你回馈12MB。</li>
+	</ul>
+	<h2><a href="#ct203" name="m1-12" class="ui-content-b" title="点击返回目录">Fine</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+<p> 对下载部分文件而未回传的客户以惩罚。</p>
+<p> 词条：Fine CS（<a href="http://wiki.emule-web.de/index.php/Fine_CS">http://wiki.emule-web.de/index.php/Fine_CS</a>）</p>
+<h2><a href="#ct203" name="m1-13" class="ui-content-b" title="点击返回目录">SWAT</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+	<p>评分有两种计算方法：</p>
+	<ul>
+		<li> 得分1 = 2.2×DL/UL</li>
+		<li> 得分2 = sqrt(DL+2)</li>
+	</ul>
+	<p> 然后比较取较小的作为评分。</p>
+	<p>存在一些边界规则：</p>
+	<ul>
+		<li>当DL&lt;1MB（精确的！）时，评分 =1</li>
+		<li>当UL=0时，评分=10</li>
+		<li>范围限制在1至100。</li>
+	</ul>
+	<h2><a href="#ct203" name="m1-14" class="ui-content-b" title="点击返回目录">Sivka</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+	<p>开启加密但未认证用户（IS_IDNEEDED）的评分为0.75 ；<br />
+		认证失败用户（failed ident）的评分为0.5；<br />
+		不良用户（Bad client）的评分为0。</p>
+	<p>定义传输差值=DL-UL</p>
+	<p>如果传输差值大于1GB，评分为32 ；<br />
+		如果传输差值介于0至1GB，评分=sqrt(差值)<br />
+		其他情况，评分为1。</p>
+	<h2><a href="#ct203" name="m1-15" class="ui-content-b" title="点击返回目录">Eastshare</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+	<ul>
+		<li> 基本评分：认证用户＝100，不支持用户＝80，认证失败＝0</li>
+		<li> 评分最低为10，最高为5000</li>
+		<li> 每上传1MB，评分＋6； 每下载1MB，评分－2</li>
+		<li> 若DL &gt; 1MB，评分＋100</li>
+		<li> 若评分 &lt; 50，DL&gt; 1M，评分为50</li>
+	</ul>
+	<p>（译注：本节描述与<span class="l2rdm"><a href="#rdm1">[1]</a></span>，<span class="l2rdm"><a href="#rdm2">[2]</a></span>互不相同）</p>
+	<h2><a href="#ct203" name="m1-16" class="ui-content-b" title="点击返回目录">Lovelace</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+	<p> 评分=100*( (1-1/(1+exp((3*DL^2-UL^2)/1000)))^6.6667 ) <br />
+		起评分为1，最小为0.1，最大为100，<br />
+		比率：1:1.5，只有一个公式 </p>
+	<p>信用窃取者（Credit Thefts）不会得到任何信用，只有使用安全认证的客户才能得到100的系数，其他为10。和原始信用系统相比，<br />
+		信用评价更偏重（传输）差而不是（上传/下载）比率。使用原始系统时，你能在生成新userhash后的短时间内获得较好的积分；<br />
+		而使用新积分系统时，如果你已经上传了很多（并且未通过更换userhash作弊），可以更快获得较好的信用值。</p>
+	<p> 旧系统（对上传者而言）：</p>
+	<ul>
+		<li>UL=5MB，DL=5MB，则下载得分为2，<br />
+		再增加5MB的上传，可获得4的下载得分。</li>
+		<li>UL=10MB，DL=10MB，则下载得分为2，<br />
+		再增加5MB的上传，可获得3的下载得分。</li>
+	</ul>
+	<p>对于同等数量的上传你获得更少的得分（-25%）。</p>
+<p> 新系统（对上传者而言）：</p>
+	<ul>
+		<li>UL=5MB，DL=5MB，则下载得分为1.16，<br />
+		再增加5MB的上传，可获得2.31的下载得分。</li>
+		<li>UL=10MB，DL=10MB，则下载得分为1.85，<br />
+		再增加5MB的上传，可获得5.09的下载得分。</li>
+	</ul>
+<p> 对于同等数量的上传你获得更多的得分（+120%），因为之前你已经上传了特定的数量。</p>
+	<table>
+		<tbody><tr>
+			<td colspan="2" rowspan="2"></td>
+			<th colspan="10">UL</th>
+		</tr>
+		<tr>
+			<th>1</th>
+			<th>2</th>
+			<th>3</th>
+			<th>4</th>
+			<th>5</th>
+			<th>6</th>
+			<th>7</th>
+			<th>8</th>
+			<th>9</th>
+			<th>10</th>
+		</tr>
+		<tr>
+			<th rowspan="20">DL</th>
+			<th>1</th>
+			<td>0.99</td>
+			<td>0.98</td>
+			<td>0.96</td>
+			<td>0.94</td>
+			<td>0.91</td>
+			<td>0.88</td>
+			<td>0.84</td>
+			<td>0.80</td>
+			<td>0.75</td>
+			<td>0.70</td>
+		</tr>
+		<tr>
+			<th>2</th>
+			<td>1.02</td>
+
+			<td>1.01</td>
+			<td>0.99</td>
+			<td>0.97</td>
+			<td>0.94</td>
+			<td>0.91</td>
+			<td>0.87</td>
+			<td>0.82</td>
+			<td>0.78</td>
+			<td>0.73</td>
+		</tr>
+		<tr>
+			<th>3</th>
+			<td>1.07</td>
+			<td>1.06</td>
+			<td>1.04</td>
+			<td>1.02</td>
+			<td>0.99</td>
+			<td>0.95</td>
+			<td>0.91</td>
+			<td>0.87</td>
+			<td>0.82</td>
+			<td>0.77</td>
+		</tr>
+		<tr>
+			<th>4</th>
+			<td>1.15</td>
+			<td>1.14</td>
+			<td>1.12</td>
+			<td>1.10</td>
+			<td>1.06</td>
+			<td>1.02</td>
+			<td>0.98</td>
+			<td>0.93</td>
+			<td>0.88</td>
+			<td>0.82</td>
+		</tr>
+		<tr>
+			<th>5</th>
+			<td>1.25</td>
+			<td>1.24</td>
+			<td>1.22</td>
+			<td>1.19</td>
+			<td>1.16</td>
+			<td>1.12</td>
+			<td>1.07</td>
+			<td>1.02</td>
+			<td>0.96</td>
+			<td>0.90</td>
+		</tr>
+		<tr>
+			<th>6</th>
+			<td>1.39</td>
+			<td>1.38</td>
+			<td>1.36</td>
+			<td>1.33</td>
+			<td>1.29</td>
+			<td>1.24</td>
+			<td>1.19</td>
+			<td>1.14</td>
+			<td>1.07</td>
+			<td>1.01</td>
+		</tr>
+		<tr>
+			<th>7</th>
+			<td>1.57</td>
+			<td>1.56</td>
+			<td>1.53</td>
+			<td>1.50</td>
+			<td>1.46</td>
+			<td>1.41</td>
+			<td>1.35</td>
+			<td>1.29</td>
+			<td>1.22</td>
+			<td>1.15</td>
+		</tr>
+		<tr>
+			<th>8</th>
+			<td>1.80</td>
+			<td>1.79</td>
+			<td>1.76</td>
+			<td>1.72</td>
+			<td>1.67</td>
+			<td>1.62</td>
+			<td>1.56</td>
+			<td>1.48</td>
+			<td>1.41</td>
+			<td>1.33</td>
+		</tr>
+		<tr>
+			<th>9</th>
+			<td>2.10</td>
+			<td>2.08</td>
+			<td>2.05</td>
+			<td>2.01</td>
+			<td>1.95</td>
+			<td>1.89</td>
+			<td>1.82</td>
+			<td>1.74</td>
+			<td>1.65</td>
+			<td>1.56</td>
+		</tr>
+		<tr>
+			<th>10</th>
+			<td>2.47</td>
+			<td>2.45</td>
+			<td>2.42</td>
+			<td>2.37</td>
+			<td>2.31</td>
+			<td>2.24</td>
+			<td>2.15</td>
+			<td>2.06</td>
+			<td>1.96</td>
+			<td>1.85</td>
+		</tr>
+		<tr>
+			<th>11</th>
+			<td>2.95</td>
+			<td>2.92</td>
+			<td>2.88</td>
+			<td>2.83</td>
+			<td>2.76</td>
+			<td>2.67</td>
+			<td>2.58</td>
+			<td>2.47</td>
+			<td>2.35</td>
+			<td>2.23</td>
+		</tr>
+		<tr>
+			<th>12</th>
+			<td>3.55</td>
+			<td>3.51</td>
+			<td>3.47</td>
+			<td>3.41</td>
+			<td>3.33</td>
+			<td>3.23</td>
+			<td>3.12</td>
+			<td>2.99</td>
+			<td>2.86</td>
+			<td>2.71</td>
+		</tr>
+		<tr>
+			<th>13</th>
+			<td>4.30</td>
+			<td>4.27</td>
+			<td>4.21</td>
+			<td>4.14</td>
+			<td>4.05</td>
+			<td>3.93</td>
+			<td>3.80</td>
+			<td>3.66</td>
+			<td>3.50</td>
+			<td>3.33</td>
+		</tr>
+		<tr>
+			<th>14</th>
+			<td>5.24</td>
+			<td>5.20</td>
+			<td>5.14</td>
+			<td>5.05</td>
+			<td>4.95</td>
+			<td>4.82</td>
+			<td>4.67</td>
+			<td>4.50</td>
+			<td>4.31</td>
+			<td>4.11</td>
+		</tr>
+		<tr>
+			<th>15</th>
+			<td>6.41</td>
+			<td>6.37</td>
+			<td>6.30</td>
+			<td>6.20</td>
+			<td>6.07</td>
+			<td>5.92</td>
+			<td>5.74</td>
+			<td>5.55</td>
+			<td>5.33</td>
+			<td>5.09</td>
+		</tr>
+		<tr>
+			<th>16</th>
+			<td>7.85</td>
+			<td>7.80</td>
+			<td>7.72</td>
+			<td>7.60</td>
+			<td>7.46</td>
+			<td>7.29</td>
+			<td>7.08</td>
+			<td>6.85</td>
+			<td>6.60</td>
+			<td>6.32</td>
+		</tr>
+		<tr>
+			<th>17</th>
+			<td>9.62</td>
+			<td>9.56</td>
+			<td>9.46</td>
+			<td>9.33</td>
+			<td>9.17</td>
+			<td>8.97</td>
+			<td>8.73</td>
+			<td>8.47</td>
+			<td>8.17</td>
+			<td>7.85</td>
+		</tr>
+		<tr>
+			<th>18</th>
+			<td>11.74</td>
+			<td>11.68</td>
+			<td>11.57</td>
+			<td>11.42</td>
+			<td>11.23</td>
+			<td>11.00</td>
+			<td>10.74</td>
+			<td>10.43</td>
+			<td>10.10</td>
+			<td>9.73</td>
+		</tr>
+		<tr>
+			<th>19</th>
+			<td>14.27</td>
+			<td>14.20</td>
+			<td>14.08</td>
+			<td>13.92</td>
+			<td>13.70</td>
+			<td>13.44</td>
+			<td>13.14</td>
+			<td>12.80</td>
+			<td>12.42</td>
+			<td>12.00</td>
+		</tr>
+		<tr>
+			<th>20</th>
+			<td>17.25</td>
+			<td>17.17</td>
+			<td>17.03</td>
+			<td>16.85</td>
+			<td>16.61</td>
+			<td>16.33</td>
+			<td>16.00</td>
+			<td>15.60</td>
+			<td>15.18</td>
+			<td>14.71</td>
+		</tr>
+	</tbody></table>
+	<h2><a href="#ct203" name="m1-17" class="ui-content-b" title="点击返回目录">ClientAnalyzer</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+	<p> （译注：用户分析，简称“CA”）</p>
+	<p> 起评分为1，最小值为0.01，最大值为10 </p>
+	<p>客户得分的评价基于他们的行为，比如：</p>
+	<p> 一个客户知道另一个客户多长时间（对保持userhash的用户给予每周的奖励），上传/下载比，上传/下载的种类（已完成/部分/稀有），反吸血设置（Anti-Leecher options），昵称窃取（Nickthieves）检测，客户端标识窃取（Modthieves）检测，文件伪造者（Filefakers）检测，滥发消息者（Spammers）检测，XS-Exploiter检测，被考虑的Hammerer（hammerer are taken into account），平均重新请求时间（avg reask time）等。</p>
+	<h2><a href="#ct203" name="m1-18" class="ui-content-b" title="点击返回目录">TK4 Credit System</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+	<p> （译注：本节中出现的原始单位为Mb、Gb，疑为MB、GB）</p>
+	<p> TK4 Mod 1.5f的信用系统，基于eMule 47a. C++源代码，完整的文本可见：TK4 Mod - Credit systems（<a href="http://emuletk4mod.sourceforge.net/TK4_Mod_Creditsystem.htm">http://emuletk4mod.sourceforge.net/TK4_Mod_Creditsystem.htm</a>） </p>
+	<p> 如果你分享已经完成的文件，因为你已经拥有了这部分文件，请求这些文件的客户不会回传给你数据，所以在TK4系统中他们的信用评分不变。<br />
+		如果你正下载文件并且某人从你拥有的那部分获得数据，他们将服从该积分系统，并且由他们给予的数量决定他们的评分有多少降低。<br />
+		在任何时候，向你传输数据的任何人的评分将上升。</p>
+	<p>积分系统大体像这样工作：</p>
+	<p> 起评分=10，<br />
+		补贴=DL/4+1</p>
+	<p>如果UL&gt;(DL+补贴+1)（他们拿的比给的加上一定量还多），并且那个文件（被请求的文件）是我们正在下载的：</p>
+	<ul>
+		<li>如果(UL-补贴)介于1到81MB<br />
+			评分乘数的范围为9到1<br />
+			公式：10 - sqrt((UL - 补贴)-DL) </li>
+		<li> 如果(UL-补贴)大于81MB<br />
+			评分乘数的范围为1到0.14<br />
+			公式：9 / sqrt((UL - 补贴) -DL) </li>
+		<li>如果DL&gt;UL（他们给的比拿的多）：<br />
+			评分乘数的范围为10到342<br />
+			公式：10+log(2.72+(DL-UL)*4)+(UL/12) </li>
+	</ul>
+	<p>乘数没有绝对的范围，但是我报了一个大于0.14小于342的范围（假设最大的差值为4GB）用10作为起始值。<br />
+		认证失败的客户起始为10，但不会上升。</p>
+	<h2><a href="#ct203" name="m1-19" class="ui-content-b" title="点击返回目录">Reverse</a><span> <a href="#" class="ui-content-t" title="点击返回顶部">[TOP]</a></span></h2>
+<p> 又称“credit shaping”。</p>
+	<p>不良特性（见：<a href="http://wiki.emule-web.de/index.php/Bad_feature">http://wiki.emule-web.de/index.php/Bad_feature</a>）</p>
+	<ul>
+		<li>给予在你下载队列中客户的评分以10倍的评分增量（你很快会等待一些（请求）从他们那）</li>
+		<li>对无需要部分和满队列客户以双倍的判罚（当前无需求但也许将来有，当所有其他来源有至少5的得分时上传给他们）</li>
+		<li>给予少量评分的提高如果预计的等待时间较短（这将会在下个版本中生效）</li>
+		<li>给等待时间以少量评分的提高（最少的），仅仅出于公平。</li>
+	</ul>
+	<p>事实上，我们的客户端会按下面顺序满足其他客户：</p>
+	<ul>
+		<li>我们试图下载的并且我们没有向其上传过任何数据的客户（他们将获得最大得分的1.1MB），在他们队列中等待时间短者优先；</li>
+		<li>已经回馈过数据且我们正试图下载的客户，比率直到5倍；</li>
+		<li>我们正试图下载的但是处于无需要部分或队列已满状态的得到1.1MB；</li>
+		<li>所有其他我们正试图下载的且已经上传过的，比率直到10倍；</li>
+		<li>所有有着最大评分的客户将以先到先得的原则回馈。</li>
+	</ul>
+</div>
+<hr class="ffd" /><div class="rdmore">
+	<h2>相关文章</h2>
+	<ol>
+<li><a href="http://my.opera.com/ied2k/forums/topic.dml?id=762892" name="rdm1" title="各积分系统的比较">http://my.opera.com/ied2k/forums/topic.dml?id=762892</a></li>
+<li><a href="http://emulefans.com/common-credit-system/" name="rdm2" title="常见eMule积分系统介绍——出来混，总是要还的！">http://emulefans.com/common-credit-system/</a></li>
+</ol></div>
+<!-- /////////////////////////////////////  -->
+
+</body></html>

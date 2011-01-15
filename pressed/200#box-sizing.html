@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><link href="file:///D|/Projects/gc-bb9z/Blog Workspace/CodePart.css" rel="stylesheet" type="text/css" /><title>[C2E] 跨浏览器的box-sizing写法</title></head><body>
+<!-- /////////////////////////////////////  -->
+<div class="stic">
+	<p><strong>导读</strong>：box-sizing是W3C在CSS3中加入的一项新属性，可以让开发者在页面中使用旧的模型。</p>
+</div>
+<div class="tag">
+<h3 style="font-size:x-small;"><a href="http://www.google.com/search?q=%22Web%22+site%3Ahi.baidu.com/BB9z/blog/item">[Web]</a>-<a href="http://www.google.com/search?q=%22%E5%89%8D%E7%AB%AF%22+site%3Ahi.baidu.com/BB9z/blog/item">[前端]</a>&gt;<a href="http://www.google.com/search?q=%22CSS%22+site%3Ahi.baidu.com/BB9z/blog/item">[CSS]</a>　<a href="http://www.google.com/search?q=%22%E9%9B%95%E8%99%AB%E5%B0%8F%E6%8A%8022+site%3Ahi.baidu.com/BB9z/blog/item">[雕虫小技]</a>　<a href="http://www.google.com/search?q=%22%E6%95%99%E7%A8%8B%22+site%3Ahi.baidu.com/BB9z/blog/item">[教程]</a>　|　<a href="http://www.google.com/search?q=BB9z">{BB9zB}</a>　<a href="http://hi.baidu.com/bb9z/blog/item/d68f6f80c080ad9cf703a64e.html" title="点击查看所有标签"><img src="http://bb9z.home.lc/EIS/info.png" alt="i"/></a> <a class="shareob" title="分享本文" href="http://www.addthis.com/bookmark.php?v=250&amp;username=bb9z"><img src="http://files.myopera.com/BB9z/EIS/ui/shareOB.png" alt="Share"/></a></h3><hr class="ffd"/></div>
+<div class="at"><h1 class="ffd">跨浏览器的box-sizing写法</h1>
+	<h2>属性的写法</h2>
+	<p>盒模型就不在此多说了，在怪异模式内容的宽度包括padding和border。</p>
+	<p>IE6之后若要采用该盒模型可以这样定义：</p>
+	<pre><code>
+div {
+	box-sizing: border-box;			// Opera，IE9
+	-moz-box-sizing: border-box;		// Firefox，Seamonkey
+	-webkit-box-sizing: border-box;	// Chrome，Safari
+	-ms-box-sizing: border-box;		// IE7，IE8
+}</code></pre>
+	<p class="postil">注：从我实测的结果来看，IE7到IE9均有效。其他浏览器只要不是太旧就应该都是支持的。</p>
+	<h2>IE6？</h2>
+	<p>如果一个页面是符合标准的，IE6会使用标准盒模型，如果想让IE6进入怪异模式可以借助DTD的使用，或在doctype前加入额外的xml声明，例如：</p>
+	<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+</code></pre>
+	<p>详见<span class="l2rdm"><a href="#rdm2"><sup>[2]</sup></a></span></p>
+	<h2>其他</h2>
+	<p>box-sizing的属性有 border-box、content-box、auto和inherit，默认应该不继承。Mozilla支持额外的padding-box属性。</p>
+
+</div>
+	<hr class="ffd"/><div class="rdmore">
+		<h2>参考资料</h2><ol>
+<li><a href="http://www.quirksmode.org/css/box.html" name="rdm1" title="Box model tweaking" lang="en">Box model tweaking | quirksmode.org
+</a></li>
+<li><a href="http://www.quirksmode.org/css/quirksmode.html" name="rdm2" title="CSS - Quirks mode and strict mode" lang="en">CSS - Quirks mode and strict mode | quirksmode.org</a></li>
+</ol></div>
+
+<!-- /////////////////////////////////////  -->
+</body></html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><link href="file:///D|/Projects/gc-bb9z/Blog Workspace/CodePart.css" rel="stylesheet" type="text/css" /></head><body>
+<!-- /////////////////////////////////////  -->
+<div class="stic"><p><strong>导读</strong>：简述Windows环境变量的作用、种类、系统的设置顺序、参考查看方式、在注册表中的位置及类型，提供Vista/Win7的一个环境变量参考列表。</p></div>
+<div class="tag"><h3>
+<a href="http://www.google.com/search?q=%22%E5%8F%82%E8%80%83%22+site%3Ahi.baidu.com/BB9z/blog/item">[参考]</a>　<a href="http://www.google.com/search?q=%22NT6%22+site%3Ahi.baidu.com/BB9z/blog/item">[NT6]</a>　<a href="http://www.google.com/search?q=%22%E7%AC%94%E8%AE%B0%22+site%3Ahi.baidu.com/BB9z/blog/item">[笔记]</a>　|　<a href="http://www.google.com/search?q=BB9z">{BB9zB}</a>　<a href="http://hi.baidu.com/bb9z/blog/item/d68f6f80c080ad9cf703a64e.html" title="点击查看所有标签"><img src="http://bb9z.home.lc/EIS/info.png" alt="i"/></a> <a class="shareob" title="分享本文" href="http://www.addthis.com/bookmark.php?v=250&amp;username=bb9z"><img src="http://files.myopera.com/BB9z/EIS/ui/shareOB.png" alt="Share"/></a></h3><hr class="ffd"/></div>
+<div class="at"><h1 class="ffd">Windows 环境变量列表及相关</h1>
+	<p class="ffd">本文包含了目录，但因为相对链接通常不能在RSS阅读器中使用，所以您可能不能利用其便利。你可以访问<a href="#">原文</a>以获得更好的阅读体验。</p>		
+<div class="contents nffd">
+	<h3 class="contentT" title="善用目录可以节约您的时间"><a name="cont06">目录</a></h3>
+	<div class="contentC">
+		<ul>
+			<li><a href="#ev_effect">环境变量的作用</a>
+			</li><li><a href="#ev-list">环境变量参考列表</a>
+			</li><li><a href="#ev-type">种类</a>
+			</li><li><a href="#ev-loadorder">设置顺序</a>
+			</li><li><a href="#ev-check">参考查看方式</a>
+			</li><li><a href="#ev-inreg">在注册表中的位置及类型</a>
+		</li></ul>
+	</div>
+</div>
+	<h2><a href="#cont06" name="ev_effect">环境变量的作用</a></h2>
+	<p>最常用的指向路径的环境变量，可以增加脚本和程序的可移植性（因为系统可以安装在C盘以外的分区，用户名也可以跟用户配置文件的路径不相符，甚至系统文件可以安装在Windows文件夹以外）。</p>
+	<p>　　我个人使用的话主要是方便在资源管理器中跳转到特定路径，如我想跳转到 D:\Program Files 则在地址栏输入%app%（自定义变量）回车就可以了。</p>
+	<h2><a href="#cont06" name="ev-list">环境变量参考列表</a></h2>
+	<p class="postil">注：以下变量适用于Vista和Win 7。</p>
+	<div>
+		<table summary="列举Vista/Win7的环境变量，非官方资料，仅供参考" class="Atb">
+			<caption>
+				环境变量参考列表
+			</caption>
+			<colgroup>
+				<col class="firstCol"/>
+				<col />
+			</colgroup>
+			<tr>
+				<td scope="col">变量名</td>
+				<td scope="col">说明</td>
+				<td scope="col" width="40%">示例的值</td>
+				<td scope="col" width="20%">其他说明</td>
+			</tr>
+			<tr>
+				<td>ALLUSERSPROFILE</td>
+				<td>列出&ldquo;All   Users&rdquo;Profile文件位置。 </td>
+				<td width="40%">C:\ProgramData</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>APPDATA</td>
+				<td>列出应用程序数据的默认存放位置。
+					<p></p>
+					<p></p></td>
+				<td width="40%">C:\Users\BB9z\AppData\Roaming</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>CD</td>
+				<td>列出当前目录。 </td>
+				<td width="40%">C:\Users\BB9z</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>CMDCMDLINE</td>
+				<td>列出启动当前cmd.exe所使用的命令行。</td>
+				<td width="40%">&quot;C:\Windows\System32\cmd.exe&quot;</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>CMDEXTVERSION</td>
+				<td>命令出当前命令处理程序扩展版本号。 </td>
+				<td width="40%">2</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>CommonProgramFiles</td>
+				<td>列出了常用文件的文件夹路径。 </td>
+				<td width="40%">C:\Program   Files\Common Files</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>COMPUTERNAME</td>
+				<td>列出了计算机名。 </td>
+				<td width="40%">BBSERVICE</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>ComSpec</td>
+				<td>列出了可执行命令外壳（命令处理程序）的路径。 </td>
+				<td width="40%">C:\Windows\system32\cmd.exe</td>
+				<td width="20%">技巧：可用来在当前路径下打开命令行</td>
+			</tr>
+			<tr>
+				<td>DATE</td>
+				<td>列出当前日期。 </td>
+				<td width="40%">2010/08/21   周六</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>ERRORLEVEL</td>
+				<td>列出了最近使用的命令的错误代码。 </td>
+				<td width="40%">9009</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>HOMEDRIVE</td>
+				<td>列出与用户主目录所在的驱动器盘符。 </td>
+				<td width="40%">C:</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>HOMEPATH</td>
+				<td>列出用户主目录的完整路径。 </td>
+				<td width="40%">\Users\BB9z</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>HOMESHARE</td>
+				<td>列出用户共享路径（不确定）</td>
+				<td width="40%">（我未能获得）</td>
+				<td width="20%">HOMESHARE=\\&lt;server name&gt;\&lt;share name&gt;   HOMEPATH=\&lt;path&gt;</td>
+			</tr>
+			<tr>
+				<td>LOGONSERVER</td>
+				<td>列出有效的当前登录会话的域名控制器名。</td>
+				<td width="40%">\\BBSERVICE</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>LANG</td>
+				<td></td>
+				<td width="40%">zh_CN</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>Localappdata</td>
+				<td></td>
+				<td width="40%">C:\Users\BB9z\AppData\Local</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>NUMBER_OF_PROCESSORS</td>
+				<td>列出了计算机安装的处理器数。 </td>
+				<td width="40%">2</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>OS</td>
+				<td>列出操作系统的名字。(WindowsXP和Windows2000列为Windows_NT.) </td>
+				<td width="40%">Windows_NT</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>Path</td>
+				<td>列出了可执行文件的搜索路径。
+					<p></p>
+					<p>\</p></td>
+				<td width="40%">C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;D:\PROGRA~1\DISKEE~2\DISKEE~1\;d:\Program   Files\MATLAB\R2010a\runtime\win32;d:\Program   Files\MATLAB\R2010a\bin;C:\MinGW\bin;D:\LINGO9\;C:\Program Files\Microsoft   SQL Server\100\Tools\Binn\;C:\Program Files\Microsoft   SQLServer\100\DTS\Binn\;D:\Program Files\SlikSvn\bin\;D:\Program   Files\Mercurial\;D:\Program Files\TortoiseSVN\bin;D:\Program Files\Microsoft   Network Monitor 3\;C:\Program Files\QuickTime\QTSystem</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>%PATHEXT%</td>
+				<td>列出操作系统认为可被执行的文件扩展名。 </td>
+				<td width="40%">.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>PROCESSOR_ARCHITECTURE</td>
+				<td>列出了处理器的芯片架构。</td>
+				<td width="40%">x86</td>
+				<td width="20%">可取的值：x86，MIPS，ALPHA</td>
+			</tr>
+			<tr>
+				<td>PROCESSOR_IDENTIFIER</td>
+				<td>列出了计算机的处理器的标识</td>
+				<td width="40%">x86 Family   6 Model 23 Stepping 6, GenuineIntel</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>PROCESSOR_LEVEL</td>
+				<td>列出了计算机的处理器的型号。 </td>
+				<td width="40%">6</td>
+				<td width="20%">可取的值：对于x86有3、4、5、6；对于MIPS有3000、4000等；对于ALPHA有21064等。</td>
+			</tr>
+			<tr>
+				<td>PROCESSOR_REVISION</td>
+				<td>列出了处理器的修订号。 </td>
+				<td width="40%">1706</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>ProgramData</td>
+				<td>列出了ProgramData文件夹的路径。</td>
+				<td width="40%">C:\ProgramData</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>ProgramFiles</td>
+				<td>列出了ProgramFiles文件夹的路径。 </td>
+				<td width="40%">C:\Program   Files</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>PROMPT</td>
+				<td>列出了当前命令解释器的命令提示设置。</td>
+				<td width="40%">$P$G </td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>PUBLIC</td>
+				<td></td>
+				<td width="40%">C:\Users\Public</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>RANDOM</td>
+				<td>列出界于0和32767之间的随机十进制数。 </td>
+				<td width="40%">21244</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>SESSIONNAME</td>
+				<td>列出连接到终端服务会话时的连接和会话名。</td>
+				<td width="40%">Console </td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>SYSTEMDRIVE</td>
+				<td>列出了Windows启动目录所在驱动器。 </td>
+				<td width="40%">C:</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>SYSTEMROOT</td>
+				<td>列出了Windows启动目录的位置。 </td>
+				<td width="40%">C:\Windows</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>TEMP
+					<p></p>
+					<p>TMP</p></td>
+				<td>列出了当前登录的用户可用应用程序的默认临时目录。 </td>
+				<td width="40%">C:\Users\BB9z\AppData\Local\Temp</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>TIME</td>
+				<td>列出当前时间。 </td>
+				<td width="40%">21:48:22.87</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>USERDOMAIN</td>
+				<td>列出了包含用户帐号的域的名字。 </td>
+				<td width="40%">BBservice</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>USERNAME</td>
+				<td>列出当前登录的用户的名字。 </td>
+				<td width="40%">BB9z</td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>USERPROFILE</td>
+				<td>列出当前用户Profile文件位置。</td>
+				<td width="40%">C:\Users\BB9z </td>
+				<td width="20%"></td>
+			</tr>
+			<tr>
+				<td>WINDIR</td>
+				<td>列出操作系统目录的位置</td>
+				<td width="40%">C:\Windows</td>
+				<td width="20%"></td>
+			</tr>
+		</table>
+	</div>
+	<p>提示：如变量的值为路径，通常可以在地址栏输入回车进行跳转。</p>
+	<h2><a href="#cont06" name="ev-type">环境变量种类</a></h2>
+	<p>系统环境变量（System environment variables），用户环境变量（User environment variables），在AUTOEXEC.BAT中定义的环境变量，预定义的环境变量（在用户登录时设置）。</p>
+	<h2><a href="#cont06" name="ev-loadorder">环境变量的设置顺序</a></h2>
+	<p>依次为：系统变量，AUTOEXEC.BAT变量，用户变量。</p>
+	<h2><a href="#cont06" name="ev-check">一种查看环境变量的参考方式</a></h2>
+	<p>在命令提示符中使用echo命令（&gt;help echo 或 &gt;echo /? 显示命令帮助），如 &gt;echo %date%，将显示类似&ldquo;2010/08/21 周六&rdquo;的日期。</p>
+	<h2><a href="#cont06" name="ev-inreg">环境变量在注册表中的位置及类型</a></h2>
+	<p>系统环境变量存储在：HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment</p>
+	<p>用户环境变量存储在：HKEY_CURRENT_USER\Environment</p>
+	<p>　　在注册表中存储的环境变量是以REG_SZ格式存储的，若代表路径则用REG_EXPAND_SZ格式（某些第三方软件创建的路径未遵循该规则，而使用的是REG_SZ） </p>
+</div>
+<hr class="ffd"/><div class="rdmore"><h2>阅读更多</h2><ul>
+<li><a href="http://support.microsoft.com/kb/100843" title="Environment variables in Windows NT">微软帮助和支持中心 - Environment variables in Windows NT</a></li>
+<li><a href="http://vlaurie.com/computers2/Articles/environment-variables-windows-vista-7.htm" title="Environment Variables in Windows Vista and Windows 7">Computer Education - Environment Variables in Windows Vista and Windows 7</a></li>
+<li><a href="http://msdn.microsoft.com/en-us/library/ms682653(VS.85).aspx" title="Environment Variables">MSDN - Environment Variables</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Environment_variable
+" title="Wikipedia - Environment Variables">Wikipedia - Environment Variables</a></li>
+</ul></div>
+
+<!-- /////////////////////////////////////  -->
+</body></html>
