@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!--<!DOCTYPE HTML><html>-->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="../../default/css/MyOpera.css" rel="stylesheet" type="text/css" />
+<style type="text/css"><!--
+body{	background:#FFF;}
+
+--></style>
+<script type="text/javascript" src="file:///D:/Projects/gc-bb9z/default/bb.js/current.js"></script>
+<script>
+
+
+</script>
+<!--<script type="text/javascript" src="file:///D|/Projects/gc-bb9z/blog/pressed/press.js"></script>-->
+<title>[D2E] 中文转十六进制 - JS实现</title></head><body><div id="mainwrap"><div id="main"><div class="post">
+<!-- /////////////////////////////////////  -->
+
+<div class="stic">
+  <p><strong>要做什么</strong>：举个例子，就是要把“微软雅黑”转换成“\5fae\8f6f\96c5\9ed1”。</p></div>
+<div class="tag">
+  <h3 style="font-size:x-small;"><a href="http://www.google.com/search?q=%22%E7%89%B9%E5%AE%9A%E9%97%AE%E9%A2%98%22+site%3Ahi.baidu.com/BB9z/blog/item">[特定问题]</a>　<a href="http://www.google.com/search?q=%22%E9%9B%95%E8%99%AB%E5%B0%8F%E6%8A%8022+site%3Ahi.baidu.com/BB9z/blog/item">[雕虫小技]</a>
+|　<a href="http://www.google.com/search?q=BB9z">{BB9zB}</a>　<a class="tag-info" href="http://hi.baidu.com/bb9z/blog/item/d68f6f80c080ad9cf703a64e.html" title="点击查看所有标签"><span class="layout-hidden">标签</span></a> <a class="tag-share" title="分享本文" href="http://www.addthis.com/bookmark.php?v=250&amp;username=bb9z"><span  class="layout-hidden">Share</span></a></h3><hr class="ffd"/></div>
+<div class="at"><h1 class="ffd">中文转十六进制 - JS实现</h1>
+  <p>如果搜索的话“可用的”关键词很多：中文转十六进制，中文字体转unicode编码，covert Asia character to unicode font-family…… </p>
+  <p>这事本身没什么难的，怪的是中文结果里绝大多数都是不知从哪里copy来的字体列表，而没人提供如何转换的方法。下面就是JavaScript版的转换函数：</p>
+  <div class="at_box bxcode" style="background-color::#F7F7F7;">
+	<h3 class="boxt"><img src="http://files.myopera.com/BB9z/EIS/mark/code16.png" class="ffd"/><a name="code" href="#cont">代码</a></h3>
+	<pre class="boxc"><code class="javascript">function char2unicode(str){
+	var output = '';
+	for(i=0,length=str.length; i&lt;length; i++)
+		output +='\\'+ str.charCodeAt(i).toString(16);
+	return output;
+}</code></pre>
+</div>
+<p>…… 还是好事做到底吧，下面就是这个转码工具的可用版本，使用时直接copy到浏览器地址栏回车就可以了，由于链接会被滤掉，链接书签就不提供了。</p>
+<div class="at_box bxcode" style="background-color::#F7F7F7;">
+  <h3 class="boxt"><img src="http://files.myopera.com/BB9z/EIS/mark/code16.png" class="ffd"/><a name="code" href="#cont">代码</a></h3>
+	<pre class="boxc"><code>javascript:s=prompt(&quot;&#38656;&#35201;&#36716;&#30721;&#30340;&#25991;&#23383;&quot;,&quot;&#24494;&#36719;&#38597;&#40657;&quot;);o='';for(var i=0,length=s.length;i&lt;length;i++)o+='\\'+s.charCodeAt(i).toString(16);prompt('&#36716;&#30721;&#32467;&#26524;\n&quot;&#24494;&#36719;&#38597;&#40657;&quot;&#30340;&#27491;&#30830;&#32467;&#26524;&#24212;&#26159;&quot;\\5fae\\8f6f\\96c5\\9ed1&quot;&#65292;&#22914;&#26524;&#19981;&#26159;&#30340;&#35805;&#27983;&#35272;&#22120;&#24403;&#21069;&#29992;&#30340;&#32534;&#30721;&#19981;&#26159;unicode&#12290;',o);</code></pre>
+</div>
+
+<hr class="ffd"/><div class="rdmore"><h2>给没事无聊的人</h2><ul>
+<li><a href="http://www.w3.org/TR/CSS21/syndata.html#charset" title="Syntax and basic data types">http://www.w3.org/TR/CSS21/syndata.html#charset</a></li>
+<li><a href="http://www.v2ex.com/t/10016" title="为什么有些JS和CSS里面的中文字符要转成十六进制的？">http://www.v2ex.com/t/10016</a></li>
+</ul></div>
+</div>
+
+<!-- /////////////////////////////////////  -->
+</div></div></div></body></html>

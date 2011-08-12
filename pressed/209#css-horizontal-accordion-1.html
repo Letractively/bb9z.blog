@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!--<!DOCTYPE HTML><html>-->
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="../../default/css/MyOpera.css" rel="stylesheet" type="text/css" />
+<style type="text/css"><!--
+body{	background:#FFF;}
+
+--></style>
+<script type="text/javascript" src="file:///D:/Projects/gc-bb9z/default/bb.js/current.js"></script>
+<!--<script type="text/javascript" src="file:///D|/Projects/gc-bb9z/blog/pressed/press.js"></script>-->
+<title>[B15N] CSS练习：纯CSS定高宽度自适应水平折叠（Horizontal Accordion）组件 - 1</title></head><body><div id="mainwrap"><div id="main"><div class="post">
+<!-- /////////////////////////////////////  -->
+
+<div class="stic">
+  <p><strong>特性</strong>： 不需JavaScript，IE9前支持不佳，table实现，宽度自适应，支持悬停切换的同时也支持点击切换……</p></div>
+<div class="tag"><h3 style="font-size:x-small;"><a href="http://www.google.com/search?q=%22%E5%89%8D%E7%AB%AF%22+site%3Ahi.baidu.com/BB9z/blog/item">[前端]</a>　<a href="http://www.google.com/search?q=%22CSS%22+site%3Ahi.baidu.com/BB9z/blog/item">[CSS]</a>　<a href="http://www.google.com/search?q=%22%E5%8F%82%E8%80%83%22+site%3Ahi.baidu.com/BB9z/blog/item">[参考]</a>　
+|　<a href="http://www.google.com/search?q=BB9z">{BB9zB}</a>　<a class="tag-info" href="http://hi.baidu.com/bb9z/blog/item/d68f6f80c080ad9cf703a64e.html" title="点击查看所有标签"><span class="layout-hidden">标签</span></a> <a class="tag-share" title="分享本文" href="http://www.addthis.com/bookmark.php?v=250&amp;username=bb9z"><span  class="layout-hidden">Share</span></a></h3><hr class="ffd"/></div>
+<div class="at"><h1 class="ffd">纯CSS定高宽度自适应水平折叠（Horizontal Accordion）组件 Part1</h1>
+  <p>前一阵看到这么一个效果，正好我想做一个类似的组件很久了，blog上也需要这种东西，那就试试看吧。</p>
+  <p><a href="http://www.premiumpixels.com/horizontal-accordion-slider-psd" title="CSS Horizontal Accordion / Slider GUI"><img src="http://farm6.static.flickr.com/5012/5517083678_8bef06225b_z.jpg" width="570" height="300" alt="CSS Horizontal Accordion" /></a></p>
+<p>首先是<a href="http://bb9z.googlecode.com/hg/demo/accordion-h/part1.html" title="PART1: Horizontal Accordion 组件（基本实现）">demo</a>。因为IE对选择器的支持不好，所以功能受限：IE8和IE7不支持 :target ，所以点击切换柄后不能锁定；IE6连 :hover 也不支持，那么只能pass了。</p>
+<h2>声明布局</h2>
+<p>让我们先来看看需要实现一个什么样的布局：</p>
+<div class="layout-hc">
+  <div class="figure"><img alt="" src="http://bb9z.googlecode.com/hg/demo/accordion-h/layout.png" />
+  </div>
+</div>
+<p>我不知道各个部分的公认的名称是什么，那么在本文需要先约定一下：<br />
+  1是整个折叠组件容器，称之为&quot;折叠组件&quot;，定高，宽度自适应； <br />
+  3和4分别称为&quot;切换柄&quot;和&quot;内容块&quot;，切换柄定宽；<br />
+  2包围着3和4，称之为&quot;容器框&quot;。</p>
+<h2>为什么是table？</h2>
+<p>首先要承认，在JavaScript可用的情况下，用div或者自定义列表是正路。但JavaScript不可用时，再强迫用div我认为是自找麻烦且得不偿失的。</p>
+<p>如果用div的话，几个容器框需要用浮动或者display:inline-block来像单元格那样排成一行，就是像td那样显示。然后的宽度问题会让你抓狂，因为是自适应宽度，再加上在这&quot;一行&quot;不是仅有一个内容块的（倒是考虑可以用百分比宽度再加定宽的外边距解决切换柄与内容块宽度的问题），其宽度除了用脚本计算外没有其他好办法。在加上之后的悬停、点击等各种状态，即使能解决的话也是很麻烦，不值得。</p>
+<p>而用table的话，一切都那么简单自然：在table-layout为auto的情况下，100%宽度的单元格会尽可能占据更多宽度而不撑破表格，除了高度外，无需任何额外的布局样式。多的只是看上去不那么顺眼的布局表格。 HTML部分如下所示：</p>
+<div class="at_box bxcode" style="background-color::#F7F7F7;">
+	<h3 class="boxt"><img src="http://files.myopera.com/BB9z/EIS/mark/code16.png" class="ffd"/><a name="code" href="#cont">代码</a></h3>
+	<pre class="boxc"><code class="html"><span class="sc1">&lt;div</span><span class="sc8"> </span><span class="sc3">class</span><span class="sc8">=</span><span class="sc6">"accordion-h"</span><span class="sc1">&gt;</span><span class="sc0">
+</span><span class="sc1">&lt;table</span><span class="sc8"> </span><span class="sc3">class</span><span class="sc8">=</span><span class="sc6">"ha-t"</span><span class="sc1">&gt;</span><span class="sc0">
+    </span><span class="sc1">&lt;tr&gt;</span><span class="sc0">
+        </span><span class="sc1">&lt;td</span><span class="sc8"> </span><span class="sc3">class</span><span class="sc8">=</span><span class="sc6">"ha-p"</span><span class="sc8"> </span><span class="sc3">id</span><span class="sc8">=</span><span class="sc6">"ha-p1"</span><span class="sc1">&gt;</span><span class="sc0">
+            </span><span class="sc1">&lt;a</span><span class="sc8"> </span><span class="sc3">class</span><span class="sc8">=</span><span class="sc6">"ha-h"</span><span class="sc8"> </span><span class="sc3">href</span><span class="sc8">=</span><span class="sc6">"#ha-p1"</span><span class="sc1">&gt;</span><span class="sc0">切换柄1</span><span class="sc1">&lt;/a&gt;</span><span class="sc0">
+            </span><span class="sc1">&lt;div</span><span class="sc8"> </span><span class="sc3">class</span><span class="sc8">=</span><span class="sc6">"ha-c"</span><span class="sc1">&gt;</span><span class="sc0">内容块1</span><span class="sc1">&lt;/div&gt;</span><span class="sc0">
+        </span><span class="sc1">&lt;/td&gt;</span><span class="sc0">
+        </span><span class="sc1">&lt;td</span><span class="sc8"> </span><span class="sc3">class</span><span class="sc8">=</span><span class="sc6">"ha-p"</span><span class="sc8"> </span><span class="sc3">id</span><span class="sc8">=</span><span class="sc6">"ha-p2"</span><span class="sc1">&gt;</span><span class="sc0">
+            </span><span class="sc1">&lt;a</span><span class="sc8"> </span><span class="sc3">class</span><span class="sc8">=</span><span class="sc6">"ha-h"</span><span class="sc8"> </span><span class="sc3">href</span><span class="sc8">=</span><span class="sc6">"#ha-p2"</span><span class="sc1">&gt;</span><span class="sc0">切换柄2</span><span class="sc1">&lt;/a&gt;</span><span class="sc0">
+            </span><span class="sc1">&lt;div</span><span class="sc8"> </span><span class="sc3">class</span><span class="sc8">=</span><span class="sc6">"ha-c"</span><span class="sc1">&gt;</span><span class="sc0">内容块2</span><span class="sc1">&lt;/div&gt;</span><span class="sc0">
+        </span><span class="sc1">&lt;/td&gt;</span><span class="sc0">
+        ……
+    </span><span class="sc1">&lt;/tr&gt;</span><span class="sc0">
+</span><span class="sc1">&lt;/table&gt;</span><span class="sc0">
+</span><span class="sc1">&lt;/div&gt;</span><span class="sc0"></span></code></pre>
+</div>
+<p>布局的样式如下，没有任何多余：</p>
+<div class="at_box bxcode" style="background-color::#F7F7F7;">
+	<h3 class="boxt"><img src="http://files.myopera.com/BB9z/EIS/mark/code16.png" class="ffd"/><a name="code" href="#cont">代码</a></h3>
+	<pre class="boxc"><code class="css"><span class="sc1">table</span><span class="sc5">.</span><span class="sc2">ha-t</span><span class="sc1"> </span><span class="sc5">{</span><span class="sc6">
+    table-layout</span><span class="sc5">:</span><span class="sc8">auto</span><span class="sc5">;</span><span class="sc6">
+</span><span class="sc5">}</span><span class="sc0">
+</span><span class="sc5">.</span><span class="sc2">ha-p</span><span class="sc1"> </span><span class="sc5">{</span><span class="sc6">
+    height</span><span class="sc5">:</span><span class="sc8">250px</span><span class="sc5">;</span><span class="sc6">
+</span><span class="sc5">}</span><span class="sc0">
+</span><span class="sc5">.</span><span class="sc2">ha-h</span><span class="sc1"> </span><span class="sc5">{</span><span class="sc6">
+    display</span><span class="sc5">:</span><span class="sc8">block</span><span class="sc5">;</span><span class="sc6">
+    width</span><span class="sc5">:</span><span class="sc8">40px</span><span class="sc5">;</span><span class="sc6">
+    height</span><span class="sc5">:</span><span class="sc8">100%</span><span class="sc5">;</span><span class="sc6">
+    float</span><span class="sc5">:</span><span class="sc8">left</span><span class="sc5">;</span><span class="sc6">
+</span><span class="sc5">}</span><span class="sc0">
+</span><span class="sc5">.</span><span class="sc2">ha-c</span><span class="sc1"> </span><span class="sc5">{</span><span class="sc6">
+    height</span><span class="sc5">:</span><span class="sc8">100%</span><span class="sc5">;</span><span class="sc6">
+    overflow</span><span class="sc5">:</span><span class="sc8">auto</span><span class="sc5">;</span><span class="sc6">
+</span><span class="sc5">}</span></code></pre>
+</div>
+  <h2>处理状态</h2>
+  <p>让我们来处理折叠组件所处的各种状态。有三种状态需要处理：默认情况应当切换到一个内容块上；当点击切换手柄时，相应内容块的折叠与收起；当鼠标悬停时，内容块的折叠与收起，悬停的优先级更高。再算上默认状态，容器一共有四种状态：默认状态，默认点击状态，点击状态和悬停状态。利用:target伪类和URL hash（#）可以处理点击状态，:hover伪类可以处理悬停状态。</p>
+  <p>还是直接看代码吧：</p><div class="at_box bxcode" style="background-color::#F7F7F7;">
+	<h3 class="boxt"><img src="http://files.myopera.com/BB9z/EIS/mark/code16.png" class="ffd"/><a name="code" href="#cont">代码</a></h3>
+	<pre class="boxc"><code class="css"><span class="sc5">.</span><span class="sc2">ha-p</span><span class="sc1">                   </span><span class="sc5">{</span><span class="sc6">width</span><span class="sc5">:</span><span class="sc8">auto</span><span class="sc5">;}</span><span class="sc0">   </span><span class="sc9">/* 默认状态 */</span><span class="sc0">
+</span><span class="sc5">.</span><span class="sc2">ha-p</span><span class="sc5">.</span><span class="sc2">last</span><span class="sc1">              </span><span class="sc5">{</span><span class="sc6">width</span><span class="sc5">:</span><span class="sc8">100%</span><span class="sc5">;}</span><span class="sc0">   </span><span class="sc9">/* 默认点击状态 */</span><span class="sc0">
+</span><span class="sc5">.</span><span class="sc2">ha-p</span><span class="sc5">:</span><span class="sc3">target</span><span class="sc1"> </span><span class="sc5">~</span><span class="sc0"> </span><span class="sc5">.</span><span class="sc2">last</span><span class="sc1">    </span><span class="sc5">{</span><span class="sc6">width</span><span class="sc5">:</span><span class="sc8">auto</span><span class="sc5">;}</span><span class="sc0">   </span><span class="sc9">/* 清除可能的 默认点击状态 */</span><span class="sc0">
+</span><span class="sc5">.</span><span class="sc2">ha-p</span><span class="sc5">:</span><span class="sc3">target</span><span class="sc1">            </span><span class="sc5">{</span><span class="sc6">width</span><span class="sc5">:</span><span class="sc8">100%</span><span class="sc5">;}</span><span class="sc0">   </span><span class="sc9">/* 点击状态 */</span><span class="sc0">
+</span><span class="sc5">.</span><span class="sc2">ha-t</span><span class="sc5">:</span><span class="sc3">hover</span><span class="sc1"> </span><span class="sc5">.</span><span class="sc2">ha-p</span><span class="sc1">       </span><span class="sc5">{</span><span class="sc6">width</span><span class="sc5">:</span><span class="sc8">auto</span><span class="sc5">;}</span><span class="sc0">   </span><span class="sc9">/* 清除可能的其他状态 */</span><span class="sc0">
+</span><span class="sc5">.</span><span class="sc2">ha-t</span><span class="sc5">:</span><span class="sc3">hover</span><span class="sc1"> </span><span class="sc5">.</span><span class="sc2">ha-p</span><span class="sc5">:</span><span class="sc3">hover</span><span class="sc1"> </span><span class="sc5">{</span><span class="sc6">width</span><span class="sc5">:</span><span class="sc8">100%</span><span class="sc5">;}</span><span class="sc0">   </span><span class="sc9">/* 悬停状态 */</span><span class="sc0">
+
+</span><span class="sc5">.</span><span class="sc2">ha-c</span><span class="sc1">                           </span><span class="sc5">{</span><span class="sc6">display</span><span class="sc5">:</span><span class="sc8">none</span><span class="sc5">;}</span><span class="sc0">     </span><span class="sc9">/* 默认状态 */</span><span class="sc0">
+</span><span class="sc5">.</span><span class="sc2">ha-p</span><span class="sc5">.</span><span class="sc2">last</span><span class="sc1"> </span><span class="sc5">.</span><span class="sc2">ha-c</span><span class="sc1">                </span><span class="sc5">{</span><span class="sc6">display</span><span class="sc5">:</span><span class="sc8">block</span><span class="sc5">;}</span><span class="sc0">    </span><span class="sc9">/* 默认点击状态 */</span><span class="sc0">
+</span><span class="sc5">.</span><span class="sc2">ha-p</span><span class="sc5">:</span><span class="sc3">target</span><span class="sc1"> </span><span class="sc5">~</span><span class="sc0"> </span><span class="sc5">.</span><span class="sc2">last</span><span class="sc1"> </span><span class="sc5">.</span><span class="sc2">ha-c</span><span class="sc1">      </span><span class="sc5">{</span><span class="sc6">display</span><span class="sc5">:</span><span class="sc8">none</span><span class="sc5">;}</span><span class="sc0">     </span><span class="sc9">/* 清除可能的 默认点击状态 */</span><span class="sc0">
+</span><span class="sc5">.</span><span class="sc2">ha-p</span><span class="sc5">:</span><span class="sc3">target</span><span class="sc1"> </span><span class="sc5">.</span><span class="sc2">ha-c</span><span class="sc1">              </span><span class="sc5">{</span><span class="sc6">display</span><span class="sc5">:</span><span class="sc8">block</span><span class="sc5">;}</span><span class="sc0">    </span><span class="sc9">/* 点击状态 */</span><span class="sc0">
+</span><span class="sc5">.</span><span class="sc2">ha-t</span><span class="sc5">:</span><span class="sc3">hover</span><span class="sc1"> </span><span class="sc5">.</span><span class="sc2">ha-p</span><span class="sc1"> </span><span class="sc5">.</span><span class="sc2">ha-c</span><span class="sc1">     </span><span class="sc0">    </span><span class="sc5">{</span><span class="sc6">display</span><span class="sc5">:</span><span class="sc8">none</span><span class="sc5">;}</span><span class="sc0">     </span><span class="sc9">/* 清除可能的其他状态 */</span><span class="sc0">
+</span><span class="sc5">.</span><span class="sc2">ha-t</span><span class="sc5">:</span><span class="sc3">hover</span><span class="sc1"> </span><span class="sc5">.</span><span class="sc2">ha-p</span><span class="sc5">:</span><span class="sc3">hover</span><span class="sc1"> </span><span class="sc5">.</span><span class="sc2">ha-c</span><span class="sc1">   </span><span class="sc5">{</span><span class="sc6">display</span><span class="sc5">:</span><span class="sc8">block</span><span class="sc5">;}</span><span class="sc0">    </span><span class="sc9">/* 悬停状态 */</span></code></pre>
+</div>
+  <p>设置td.ha-p的宽度为100%或auto，分别对应展开与折叠，当折叠时需要隐藏div.ha-c。其样式的设置顺序与链接的LoVe &amp; HAte（:link, :visited,:hover,:active）规则很相似，需要注意的是不像链接每一时刻只能处于一种状态，容器可以同时处于多种状态，所以需要清除其他状态带来的影响。</p>
+  <h2>选择器的使用</h2>
+  <p>你可能注意到点击状态的清除和悬停状态的清除我用了两种不同的类型的选择器，其实这两种方案在逻辑上都不是正确的，正确的选择是&quot;所有兄弟的选择器&quot;，如果JavaScript可用这当然好说，但是在CSS中它根本就不存在！</p>
+  <p>它们之所以现在看上去工作得不错是有前提的。点击状态使用了兄长选择器（~），它能选择当前元素后面的多个兄弟，这就是为什么默认点击的是last而不是first或任何中间的容器（在前面的你清除不掉，在最后的总能清除到）。悬停状态使用了看上去不那么顺眼的 .ha-t:hover，这利用了当悬停在子元素内通常也同时悬停在父元素，我选择不到兄弟但我能选择到父亲的所有子元素，而且同时增加了响应鼠标的区域。响应区域增加后留下的问题是切换柄的状态切换会有小问题——鼠标处于外层但未在里层时会显示空白，尤其当margin，border，padding这些值比较大时。</p>
+  <h2>其他</h2>
+  <p>在table.ha-t外我又套了层div，也没把table的宽度设死。用一个标签的代价换来的是更大的灵活性和在IE6下&quot;死的比较体面&quot;。</p>
+  <div class="layout-hc">
+    <div class="figure"><img alt="在IE6下的样子" src="http://bb9z.googlecode.com/hg/demo/accordion-h/part1_preview_in_ie6.png" />
+      <p>可以看到布局基本没有破坏，交互部分当然都没有了</p>
+    </div>
+  </div>
+<p>在blog的实际实现因为百度空间会滤掉id，所以是不能切换的。</p>
+<p>没打算当教程写，所以写的比较简略，看不懂的话就多动动脑吧（希望没写多了 :p） 。 </p>
+</div>
+
+<!-- /////////////////////////////////////  -->
+</div></div></div></body></html>
